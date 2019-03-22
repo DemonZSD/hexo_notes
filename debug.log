@@ -1,0 +1,26 @@
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Writing database to /var/www/hexo_notes/db.json","time":"2019-03-22T01:50:50.505Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Hexo version: \u001b[35m3.8.0\u001b[39m","time":"2019-03-22T01:50:50.518Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Working directory: \u001b[35m/var/www/hexo_notes/\u001b[39m","time":"2019-03-22T01:50:50.519Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Config loaded: \u001b[35m/var/www/hexo_notes/_config.yml\u001b[39m","time":"2019-03-22T01:50:50.614Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-generator-archive\u001b[39m","time":"2019-03-22T01:50:50.625Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-generator-category\u001b[39m","time":"2019-03-22T01:50:50.626Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-generator-feed\u001b[39m","time":"2019-03-22T01:50:50.628Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-generator-index\u001b[39m","time":"2019-03-22T01:50:50.628Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-generator-tag\u001b[39m","time":"2019-03-22T01:50:50.629Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-renderer-ejs\u001b[39m","time":"2019-03-22T01:50:50.631Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-renderer-marked\u001b[39m","time":"2019-03-22T01:50:50.635Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-renderer-stylus\u001b[39m","time":"2019-03-22T01:50:50.635Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-server\u001b[39m","time":"2019-03-22T01:50:50.671Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Plugin loaded: \u001b[35mhexo-wordcount\u001b[39m","time":"2019-03-22T01:50:50.671Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/merge-configs.js\u001b[39m","time":"2019-03-22T01:50:50.677Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/button.js\u001b[39m","time":"2019-03-22T01:50:50.677Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/center-quote.js\u001b[39m","time":"2019-03-22T01:50:50.677Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/exturl.js\u001b[39m","time":"2019-03-22T01:50:50.678Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/full-image.js\u001b[39m","time":"2019-03-22T01:50:50.678Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/label.js\u001b[39m","time":"2019-03-22T01:50:50.678Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/lazy-image.js\u001b[39m","time":"2019-03-22T01:50:50.679Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/note.js\u001b[39m","time":"2019-03-22T01:50:50.679Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/tabs.js\u001b[39m","time":"2019-03-22T01:50:50.679Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/tags/group-pictures.js\u001b[39m","time":"2019-03-22T01:50:50.680Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Script loaded: \u001b[35mthemes/next/scripts/merge.js\u001b[39m","time":"2019-03-22T01:50:50.682Z","v":0}
+{"name":"hexo","hostname":"vultr.guest","pid":7763,"level":20,"msg":"Database saved","time":"2019-03-22T01:50:50.685Z","v":0}

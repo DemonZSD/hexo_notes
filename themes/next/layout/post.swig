@@ -24,6 +24,9 @@
         {% include '_partials/share/duoshuo_share.swig' %}
       {% endif %}
     </div>
+    {% if theme.ad_display.enable %}
+    {% include '_custom/google_adsense.swig' %}
+    {% endif %}
   </div>
 
 {% endblock %}

@@ -79,8 +79,8 @@ menu_icons:
 
 # Schemes
 #scheme: Muse
-scheme: Mist
-#scheme: Pisces
+#scheme: Mist
+scheme: Pisces
 #scheme: Gemini
 
 
@@ -206,8 +206,9 @@ post_meta:
 post_wordcount:
   item_text: true
   wordcount: true
-  min2read: false
-  separated_meta: true
+  min2read: true
+  totalcount: true
+  separated_meta: false
 
 # Wechat Subscriber
 #wechat_subscriber:
@@ -363,12 +364,16 @@ changyan:
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
-#google_site_verification:
+#google_site_verification: true
 
 # Google Analytics
 #google_analytics:
 
-# Yandex Webmaster tools verification setting
+# Google adsense
+ad_display:
+  enable: true
+
+#ble: false Yandex Webmaster tools verification setting
 # See: https://webmaster.yandex.ru/
 #yandex_site_verification:
 
@@ -428,8 +433,8 @@ rating:
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
   enable: true
-  app_id: #<app_id>
-  app_key: #<app_key>
+  app_id: nSSt5cKO2R1XjIwU9KlbUtOc-gzGzoHsz
+  app_key: lc8U1dg1a1oYdIFq4YU26gmH
 
 # Show PV/UV of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
