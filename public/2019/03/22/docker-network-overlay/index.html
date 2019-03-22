@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="docker,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Weshzhu Blogs" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="docker overlay网络用于创建多个docker主机之间的分布式网络。该网络位于（覆盖）特定于主机的网络之上，可以将swarm集群服务和containers容器与overlay网络进行连接，使各个服务或者服务与容器之间进行通信。  创建或加入swarm服务在创建和使用overlay之前，必须初始化一个swarm或者加入某个swarm:  创建一个swarm集群服务 用法：docker s">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker网络驱动之--overlay网络">
+<meta property="og:url" content="http://172.104.32.215/2019/03/22/docker-network-overlay/index.html">
+<meta property="og:site_name" content="Weshzhu Blogs">
+<meta property="og:description" content="docker overlay网络用于创建多个docker主机之间的分布式网络。该网络位于（覆盖）特定于主机的网络之上，可以将swarm集群服务和containers容器与overlay网络进行连接，使各个服务或者服务与容器之间进行通信。  创建或加入swarm服务在创建和使用overlay之前，必须初始化一个swarm或者加入某个swarm:  创建一个swarm集群服务 用法：docker s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://172.104.32.215/images/swarmcluster.png">
+<meta property="og:updated_time" content="2019-03-21T12:25:46.633Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker网络驱动之--overlay网络">
+<meta name="twitter:description" content="docker overlay网络用于创建多个docker主机之间的分布式网络。该网络位于（覆盖）特定于主机的网络之上，可以将swarm集群服务和containers容器与overlay网络进行连接，使各个服务或者服务与容器之间进行通信。  创建或加入swarm服务在创建和使用overlay之前，必须初始化一个swarm或者加入某个swarm:  创建一个swarm集群服务 用法：docker s">
+<meta name="twitter:image" content="http://172.104.32.215/images/swarmcluster.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://172.104.32.215/2019/03/22/docker-network-overlay/">
+
+
+
+
+
+  <title>docker网络驱动之--overlay网络 | Weshzhu Blogs</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Weshzhu Blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">weshzhu</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2019/03/22/docker-network-overlay/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Weshzhu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weshzhu Blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker网络驱动之--overlay网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-21T20:23:46Z">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/22/docker-network-overlay/" class="leancloud_visitors" data-flag-title="docker网络驱动之--overlay网络">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.7k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><code>docker overlay</code>网络用于创建多个docker主机之间的分布式网络。该网络位于（覆盖）特定于主机的网络之上，可以将<code>swarm</code>集群服务和<code>containers</code>容器与<code>overlay</code>网络进行连接，使各个服务或者服务与容器之间进行通信。</p>
+</blockquote>
+<h4 id="创建或加入swarm服务"><a href="#创建或加入swarm服务" class="headerlink" title="创建或加入swarm服务"></a>创建或加入<code>swarm</code>服务</h4><p>在创建和使用<code>overlay</code>之前，必须初始化一个<a href="https://docs.docker.com/engine/swarm/" target="_blank" rel="noopener"><code>swarm</code></a>或者加入某个<code>swarm</code>:</p>
+<ul>
+<li><p>创建一个<code>swarm</code>集群服务</p>
+<p>用法：<code>docker swarm init [OPTIONS]</code>，针对常用的<code>[OPTIONS]</code>介绍见下方表格：</p>
+<p>参数说明</p>
+<p>|参数|类型|默认值|说明|<br>|—–|—–|—–|—–|<br>|<code>--advertise-addr</code>| string ||多块网卡时对应多个IP地址时，需要指定|<br>|<code>--data-path-addr</code>|string||用于数据流量传输的IP地址或者网卡名称（例：<code>eth0</code>）|<br>|<code>--listen-addr</code>|node-addr|0.0.0.0:2377|监听地址|</p>
+</li>
+</ul>
+<p>  <strong>示例：创建<code>swarm</code>服务</strong></p>
+<p>  我们用两个节点进行演示，一个node既是管理节点，工作节点；一个node仅是工作节点：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node1 : 192.168.0.190  (manager &amp; worker)</span><br><span class="line">node2 : 192.168.0.191 (worker)</span><br></pre></td></tr></table></figure>
+<p>   <img src="/images/swarmcluster.png" alt="swarm架构"></p>
+<ul>
+<li><p>创建<code>swarm</code>集群服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init --advertise-addr 192.168.0.190</span><br><span class="line">Swarm initialized: current node      (se5tsje7l9oibpsx54bbe7nuf) is now amanager.</span><br><span class="line">To add a worker to this swarm, run the following      command:</span><br><span class="line">  docker swarm join      --tokenSWMTKN-1-45ffvnn83wrl0aprynpcs0cogtg951kns  t fq  n7ok98hizonw9s-e5p7e5yjfit5tx6l1kp3e6d9      192.168.0.190:2377</span><br><span class="line">To add a manager to this swarm, run &apos;docker swarm      join-tokenmanager&apos; and follow the instructions.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>注意到执行初始化`swarm`语句时，会打印出其他node节点加 入该`swarm`的方式：
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm join --token xxxx &lt;manager-ip&gt;:&lt;port&gt;</span><br></pre></td></tr></table></figure>
+
+
+可以将其保存到文档，以便于后续`swarm`Node的[join]   (https://docs.docker.   com/engine/reference/commandline/swarm_join/)。
+
+查看docker网络
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER                 SCOPE</span><br><span class="line">ba18dbad1160        bridge              bridge                 local</span><br><span class="line">58886c346808        docker_gwbridge     bridge                 local</span><br><span class="line">7966432ad37e        host                host                   local</span><br><span class="line">yryhkokko1tk        ingress             overlay                swarm</span><br><span class="line">d1ab833f3555        none                null                   local</span><br></pre></td></tr></table></figure>
+
+
+可以看到在docker网络中，新增了`ingress`和 `docker_gwbridge`网络。
+
+- `ingress`
+
+  一个名为ingress的覆盖网络，用于处理与`swarm`服务相关   的控制和数据流量。创建`swarm`服务时，如果不将其连接   到用户定义的覆盖网络，则默认情况下会连接到该   `ingress`网络
+
+  使用 `docker network inspect ingress`查看现有的   `ingress`网络。
+
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect ingress</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;ingress&quot;,</span><br><span class="line">        &quot;Id&quot;: &quot;yryhkokko1tkpkhx0pf0e1zm3&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2019-01-08T17:05:50.511486192+08:00&quot;,</span><br><span class="line">        &quot;Scope&quot;: &quot;swarm&quot;,</span><br><span class="line">        &quot;Driver&quot;: &quot;overlay&quot;,</span><br><span class="line">        &quot;EnableIPv6&quot;: false,</span><br><span class="line">        &quot;IPAM&quot;: &#123;</span><br><span class="line">            &quot;Driver&quot;: &quot;default&quot;,</span><br><span class="line">            &quot;Options&quot;: null,</span><br><span class="line">            &quot;Config&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;Subnet&quot;: &quot;10.255.0.0/16&quot;,</span><br><span class="line">                    &quot;Gateway&quot;: &quot;10.255.0.1&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Internal&quot;: false,</span><br><span class="line">        &quot;Attachable&quot;: false,</span><br><span class="line">        &quot;Ingress&quot;: true,</span><br><span class="line">        &quot;ConfigFrom&quot;: &#123;</span><br><span class="line">            &quot;Network&quot;: &quot;&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;ConfigOnly&quot;: false,</span><br><span class="line">        &quot;Containers&quot;: &#123;</span><br><span class="line">            &quot;ingress-sbox&quot;: &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;ingress-endpoint&quot;,</span><br><span class="line">                &quot;EndpointID&quot;: &quot;75df50d1f8228ff64d65a6801bc2a93e31de3f72adaec01e147abd266d3d64eb&quot;,</span><br><span class="line">                &quot;MacAddress&quot;: &quot;02:42:0a:ff:00:03&quot;,</span><br><span class="line">                &quot;IPv4Address&quot;: &quot;10.255.0.3/16&quot;,</span><br><span class="line">                &quot;IPv6Address&quot;: &quot;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Options&quot;: &#123;</span><br><span class="line">            &quot;com.docker.network.driver.overlay.vxlanid_list&quot;: &quot;4096&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Labels&quot;: &#123;&#125;,</span><br><span class="line">        &quot;Peers&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;5e8427535708&quot;,</span><br><span class="line">                &quot;IP&quot;: &quot;192.168.0.190&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;42c5607b0c46&quot;,</span><br><span class="line">                &quot;IP&quot;: &quot;192.168.0.191&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+- `docker_gwbridge`
+
+  一个名为`docker_gwbridge`的桥接网络，它用于各个  `swarm`中，各个node节点进行通信的桥接网络。
+
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect docker_gwbridge</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;docker_gwbridge&quot;,</span><br><span class="line">        &quot;Id&quot;: &quot;2c7254c25f765b28833668e060246a813d69b8936a5db1a8cd2bc7237dfc7df4&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2019-01-08T17:05:51.263715613+08:00&quot;,</span><br><span class="line">        &quot;Scope&quot;: &quot;local&quot;,</span><br><span class="line">        &quot;Driver&quot;: &quot;bridge&quot;,</span><br><span class="line">        &quot;EnableIPv6&quot;: false,</span><br><span class="line">        &quot;IPAM&quot;: &#123;</span><br><span class="line">            &quot;Driver&quot;: &quot;default&quot;,</span><br><span class="line">            &quot;Options&quot;: null,</span><br><span class="line">            &quot;Config&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;Subnet&quot;: &quot;172.18.0.0/16&quot;,</span><br><span class="line">                    &quot;Gateway&quot;: &quot;172.18.0.1&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Internal&quot;: false,</span><br><span class="line">        &quot;Attachable&quot;: false,</span><br><span class="line">        &quot;Ingress&quot;: false,</span><br><span class="line">        &quot;ConfigFrom&quot;: &#123;</span><br><span class="line">            &quot;Network&quot;: &quot;&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;ConfigOnly&quot;: false,</span><br><span class="line">        &quot;Containers&quot;: &#123;</span><br><span class="line">            &quot;ingress-sbox&quot;: &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;gateway_ingress-sbox&quot;,</span><br><span class="line">                &quot;EndpointID&quot;: &quot;4f6821a4096104af4f04aea5caab7a5a3419a2b6469b31ea7a52f4c92b9023af&quot;,</span><br><span class="line">                &quot;MacAddress&quot;: &quot;02:42:ac:12:00:02&quot;,</span><br><span class="line">                &quot;IPv4Address&quot;: &quot;172.18.0.2/16&quot;,</span><br><span class="line">                &quot;IPv6Address&quot;: &quot;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Options&quot;: &#123;</span><br><span class="line">            &quot;com.docker.network.bridge.enable_icc&quot;: &quot;false&quot;,</span><br><span class="line">            &quot;com.docker.network.bridge.enable_ip_masquerade&quot;: &quot;true&quot;,</span><br><span class="line">            &quot;com.docker.network.bridge.name&quot;: &quot;docker_gwbridge&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Labels&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>增加工作（<code>worker</code>）节点</p>
+<p>  将node2(192.168.0.191)加入到该<code>swarm</code>：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm join --token \</span><br><span class="line">  SWMTKN-1-45ffvnn83wrl0aprynpcs0cogtg951knstfqn7ok98hizonw9s-e5p7e50yjfit5tx6l1kp3e6d9  \</span><br><span class="line">  192.168.0.190:2377</span><br><span class="line"></span><br><span class="line">  This node joined a swarm as a worker.</span><br></pre></td></tr></table></figure>
+<p>  查看node</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br><span class="line">  ID                            HOSTNAME             STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">  se5tsje7l9oibpsx54bbe7nuf *   host1                 Ready               Active              Leader              18.03.1-ce</span><br><span class="line">  timpbicei0sxbsuv9rq1625eh     host2                 Ready               Active                                  18.03.1-ce</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>查看**工作节点**的docker网络
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker network ls </span><br><span class="line">  NETWORK ID          NAME                DRIVER                    SCOPE</span><br><span class="line">  e39a5d50e807        bridge              bridge                    local</span><br><span class="line">  2c7254c25f76        docker_gwbridge     bridge                    local</span><br><span class="line">  a284efd6e1f2        host                host                      local</span><br><span class="line">  yryhkokko1tk        ingress             overlay                   swarm</span><br><span class="line">  13bd88a34632        none                null                  local</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="overlay网络"><a href="#overlay网络" class="headerlink" title="overlay网络"></a><code>overlay</code>网络</h4><ul>
+<li><p>创建<code>overlay</code>网络</p>
+<p>在创建<code>overlay</code>网络前，需要初始化或者加入<code>swarm</code>服务。即使可能后续不会使用<code>swarm</code>服务，也需要执行此操作。之后，您可以创建其他用户定义的覆盖网络。</p>
+<p>要创建用于swarm服务的覆盖网络，请使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create -d overlay my-overlay</span><br></pre></td></tr></table></figure>
+<p>要创建可由群集服务或独立容器用于与在其他Docker守护进程主机上运行的其他独立容器通信的<code>overlay</code>网络，必须添加<code>--attachable</code>标志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create -d overlay --attachable my-attachable-overlay</span><br></pre></td></tr></table></figure>
+<p>在创建可以指定IP地址范围，子网，网关和其他选项。有关详细信息，请参阅docker network create –help</p>
+</li>
+<li><p><code>overlay</code>网络流量加密（不支持windows操作系统）</p>
+<p>在<code>swarm</code>服务中的管理流量默认是通过<code>GCM-AES</code>加密算法进行加密。如果尝试对容器间的流量进行加密，在创建覆盖网络时添加<code>--opt encrypted</code>属性，Docker会在各个工作节点之间建立<code>IPSEC</code>隧道。但是通常加密解密操作需要消耗一定的性能，若将网络加密应用于生产环境，一定对该性能损耗进行评估。</p>
+</li>
+</ul>
+<ul>
+<li><p>自定义默认<code>ingress</code></p>
+<p>Docker 17.05之后的版本，才支持用户修改默认<code>ingress</code>网络。如果自动选择的子网与网络上已存在的子网冲突，或者您需要自定义其他<code>low-level</code>底层网络设置（如MTU），则此功能非常有用。</p>
+<ul>
+<li><p>创建<code>ingress</code>网络</p>
+<p>使用–ingress标志创建新的覆盖网络，以及要设置的自定义  选项。此示例将MTU设置为1200，将子网设置为10.11.0.0/16，并将网关设置为10.11.0.2。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create \</span><br><span class="line">  --driver overlay \</span><br><span class="line">  --ingress \</span><br><span class="line">  --subnet=10.11.0.0/16 \</span><br><span class="line">  --gateway=10.11.0.2 \</span><br><span class="line">  --opt com.docker.network.driver.mtu=1200 \</span><br><span class="line">  my-ingress</span><br></pre></td></tr></table></figure>
+<p>注意：您可以对<code>ingress</code>网络重新命名，但您只能拥有一个<code>ingress</code>网络。</p>
+</li>
+<li><p>删除<code>ingress</code>网络</p>
+<p>如果现有服务有发布端口，则需要先删除这些服务，然后才能删除<code>ingress</code>网络。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker network rm ingress</span><br><span class="line"> </span><br><span class="line">  WARNING! Before removing the routing-mesh   network, make sure all the nodes</span><br><span class="line">  in your swarm run the same docker engine   version. Otherwise, removal may not</span><br><span class="line">  be effective and functionality of newly created   ingress networks will be</span><br><span class="line">  impaired.</span><br><span class="line">  Are you sure you want to continue? [y/N]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>自定义<code>docker_gwbridge</code></p>
+<p><code>docker_gwbridge</code>是一个虚拟网桥，将覆盖网络（包括<code>ingress</code>网络）连接到单个Docker守护程序的物理网络，它存在于Docker主机的内核中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ip addr | grep docker_gwbridge</span><br><span class="line">  docker_gwbridge: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;   mtu 1500 qdisc noqueue state UP </span><br><span class="line">    inet 172.18.0.1/16 brd 172.18.255.255 scope   global docker_gwbridge</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>Stop Docker service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl stop docker</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>删除<code>docker_gwbridge</code>网桥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ip link set  docker_gwbridge down</span><br><span class="line">$ ip link del dev docker_gwbridge</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动Docker，但是不要初始化<code>swarm</code>或者加入任何<code>swarm</code>  服务网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl start docker</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>docker network create</code>命令，使用自定义设置手动  创建或重新创建<code>docker_gwbridge</code>桥。此示例使用子网  10.11.0.0/16。有关可自定义选项的完整列表，请参阅[Bridge  驱动程序选项]  (<a href="https://docs.docker.com/engine/reference/commandline/" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/commandline/</a>  network_create/#bridge-driver-options)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create  \</span><br><span class="line">  --subnet 10.11.0.0/16 \</span><br><span class="line">  --opt    com.docker.network.bridge.name=docker_gwbridge \</span><br><span class="line">  --opt com.docker.network.bridge.enable_icc=false  \</span><br><span class="line">  --opt    com.docker.network.bridge.enable_ip_masquerade=true \</span><br><span class="line">  docker_gwbridge</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化或加入<code>swarm</code>服务集群。由<code>docker_gwbridge</code>网桥已经存在，初始化时Docker不再创建它。</p>
+</li>
+</ol>
+<h4 id="创建用于swarm服务的overlay网络"><a href="#创建用于swarm服务的overlay网络" class="headerlink" title="创建用于swarm服务的overlay网络"></a>创建用于<code>swarm</code>服务的<code>overlay</code>网络</h4><ul>
+<li><p>在<code>overlay</code>网络上，暴露服务端口号</p>
+<p>连接到同一覆盖网络的群集服务有效地将所有端口彼此暴露。对于可在服务外部访问的端口，必须使用<code>docker service create</code>或<code>docker service update</code>上的<code>-p</code>或<code>--publish</code>参数发布端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker service create</span><br></pre></td></tr></table></figure>
+<p>默认情况下，发布端口的<code>swarm</code>服务使用路由网格(<code>routing mesh</code>)来实现。如果连接到当您连接到任何swarm节点上的已发布端口（无论它是否正在运行给定服务）时，您将被透明地重定向到正在运行该服务的worker。</p>
+</li>
+<li><p><code>swram</code>服务区（<code>swarm service</code>）绕过网格路由（<code>routing mesh</code>）</p>
+<p>默认情况下，发布端口的<code>swarm</code>服务使用路由网格来实现负载均衡。 当您连接到任意一个<code>swarm</code>节点（工作节点和管理节点）上的已发布端口（无论该节点上是否运行了要访问的服务）时，您将被透明地路由到正在运行该服务的<code>worker</code>节点上。实际上，Docker充当您的群服务的负载均衡器（<code>load balancer</code>）。 默认情况下，使用<code>routing mesh</code>的服务以虚拟IP（VIP）模式运行。 即使在每个节点上运行的服务（通过<code>--mode global</code>）也使用路由网格。使用<code>routing mesh</code>时，无法保证哪个Docker节点响应客户端请求。要绕过路由网格，可以使用DNS循环（DNSRR）模式启动服务，方法是将<code>--endpoint-mode</code>标志设置为<code>dnsrr</code>。若使用<code>dnsrr</code>，需要在服务前运行自己的负载均衡器（常用的：有<code>nginx</code>、<code>HAproxy</code>）。通过DNS查询返回运行在<code>swarm</code>集群服务的所有节点的IP地址列表。</p>
+<blockquote>
+<p><code>routing mesh</code> 将外部请求路由到不同主机的容器，从而实现了外部网络对 <code>service</code> 的访问。</p>
+</blockquote>
+</li>
+<li><p>分离控制流量和数据流量</p>
+<p>默认情况下，与<code>swarm</code>管理相关的控制流量以及应用程序的数据流量都在同一网络上运行，尽管群集控制流量已加密。您可以将Docker配置为使用单独的网络接口来处理两种不同类型的流量。初始化或加入<code>swarm</code>时，每个节点（管理节点和工作节点）需要分别指定<code>--advertise-addr</code>和<code>--data-path-addr</code>。</p>
+</li>
+</ul>
+<h4 id="创建用于独立容器使用的overlay网络"><a href="#创建用于独立容器使用的overlay网络" class="headerlink" title="创建用于独立容器使用的overlay网络"></a>创建用于独立容器使用的<code>overlay</code>网络</h4><ul>
+<li><p>将独立容器连接到覆盖网络</p>
+<p>在创建<code>ingress</code>网络时，若未指定<code>--attachable</code>（比如初始化<code>swarm</code>服务，或加入<code>swarm</code>时默认创建的<code>ingress</code>）意味着只有<code>swarm</code>服务可以使用它，独立运行的容器无法使用<code>ingress</code>。您可以将独立容器连接到使用–attachable标志创建的用户定义的覆盖网络。这使得在不同Docker守护程序上运行的独立容器能够进行通信，而无需在各个Docker守护程序主机上设置路由。</p>
+</li>
+</ul>
+<ul>
+<li><p>容器发现</p>
+<p>在大多数情况下，您应该连接到服务名称，该名称是负载平衡的，并由支持该服务的所有容器（“tasks”）处理。要获取支持该服务的所有任务的列表，使用<code>DNS lookup</code> 查找<code>tasks.&lt;service-name&gt;</code></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/21/python-mulit-thread/" rel="next" title="python 多线程锁机制介绍">
+                <i class="fa fa-chevron-left"></i> python 多线程锁机制介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Weshzhu">
+          <p class="site-author-name" itemprop="name">Weshzhu</p>
+           
+              <p class="site-description motion-element" itemprop="description">持之以恒，一日不作，一日不食~~ </p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://me.csdn.net/zsd498537806" target="_blank" title="csdn">
+                  
+                    <i class="fa fa-fw fa-cuttlefish"></i>
+                  
+                    
+                      csdn
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建或加入swarm服务"><span class="nav-number">1.</span> <span class="nav-text">创建或加入swarm服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overlay网络"><span class="nav-number">2.</span> <span class="nav-text">overlay网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用于swarm服务的overlay网络"><span class="nav-number">3.</span> <span class="nav-text">创建用于swarm服务的overlay网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用于独立容器使用的overlay网络"><span class="nav-number">4.</span> <span class="nav-text">创建用于独立容器使用的overlay网络</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weshzhu</span>
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共6.3k字</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -5,6 +5,7 @@ tags:
   - docker
   - storage
 categories:
+  - 运维
   - docker
 ---
 
@@ -24,7 +25,7 @@ Docker: docker-ce 18.03.1 ( [docker-ce安装教程](http://www.weshzhu.com/2019/
 
 在了解`Docker storage driver`之前，我们先了解一下Docker如何存储容器数据和镜像数据。在Docker中数据分为镜像数据和容器数据，容器数据又包含容器可写层和`docker volume`存储。镜像数据是一种静态数据，存储了提供容器运行的程序、配置文件等。容器数据可以理解为动态 + 静态的数据（阅读本文后，可能有比较直观的理解），供容器运行使用。
 
-![](./container-layers.jpg)
+   ![](/images/container-layers.jpg)
 
 如上图所示，容器层（high-level）是非常小的层，允许程序对该层读写操作；镜像层(low-level)包含了大部分的数据，并且是只读的。在镜像未启动时均是以镜像层存储在host主机上（存储路径：`/var/lib/docker/<storage-driver>/`）。以该镜像为基础，通过`docker run`启动一个或多个容器后，针对每个启动的容器会增加一层——可读写层（容器层）。
 
@@ -113,8 +114,8 @@ Docker: docker-ce 18.03.1 ( [docker-ce安装教程](http://www.weshzhu.com/2019/
    
    容器和镜像之间的主要区别在于顶部可写层，所有对容器的操作：对文件的修改和添加，都是在可写层进行操作的（写时复制CoW策略），`low-level`的镜像层不会更改。若将启动的容器进行删除，那么所有的操作将不被保留。
    若以同一个镜像启动多个容器，则底层的镜像层是公共的层，为所有容器共用，对应每个容器有各自的可写层。对容器文件的修改保存均在容器层。对于不同的容器，容器层的数据不可共享，若想共享数据，可采用`docker volume`存储。针对该存储方案，由于内容较多，将单独作为一个章节进行介绍。
-   ![](./sharing-layers.jpg)
-   
+
+  ![](/images/sharing-layers.jpg)
 
    当启动一个容器，启动容器时，会在容器层的顶部添加一个体积比较小的可写容器层。容器对文件系统所做的任何更改都存储在此处。Docker的host主机文件系统中对应的容器层存储路径`/var/lib/docker/containers`
 
