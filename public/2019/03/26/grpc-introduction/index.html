@@ -85,7 +85,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="docker,jenkins,">
+  <meta name="keywords" content="gRPC,">
 
 
 
@@ -103,18 +103,20 @@
 
 
 
-<meta name="description" content="首先，制作支持docker的jenkins镜像，基础镜像是jenkins:2.60.3参考Running Docker in Jenkins (in Docker) 编辑Dockerfile，内容如下：1234567891011121314FROM jenkins:2.60.3USER rootRUN echo &amp;apos;&amp;apos; &amp;gt; /etc/apt/sources.list.d/j">
-<meta name="keywords" content="docker,jenkins">
+<meta name="description" content="RPCRPC 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。 RPC只是描绘了 Client 与 Server 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开">
+<meta name="keywords" content="gRPC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker中启动jenkins容器，并在jenkins中使用docker 命令，解决docker command not found">
-<meta property="og:url" content="http://172.104.32.215/2018/03/22/jenkins-docker-command-not-found/index.html">
+<meta property="og:title" content="gRPC教程——gRPC简介">
+<meta property="og:url" content="http://172.104.32.215/2019/03/26/grpc-introduction/index.html">
 <meta property="og:site_name" content="Weshzhu Blogs">
-<meta property="og:description" content="首先，制作支持docker的jenkins镜像，基础镜像是jenkins:2.60.3参考Running Docker in Jenkins (in Docker) 编辑Dockerfile，内容如下：1234567891011121314FROM jenkins:2.60.3USER rootRUN echo &amp;apos;&amp;apos; &amp;gt; /etc/apt/sources.list.d/j">
+<meta property="og:description" content="RPCRPC 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。 RPC只是描绘了 Client 与 Server 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-21T12:13:00.218Z">
+<meta property="og:image" content="http://172.104.32.215/images/2019-03-25_180320.png">
+<meta property="og:updated_time" content="2019-03-25T10:04:49.228Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker中启动jenkins容器，并在jenkins中使用docker 命令，解决docker command not found">
-<meta name="twitter:description" content="首先，制作支持docker的jenkins镜像，基础镜像是jenkins:2.60.3参考Running Docker in Jenkins (in Docker) 编辑Dockerfile，内容如下：1234567891011121314FROM jenkins:2.60.3USER rootRUN echo &amp;apos;&amp;apos; &amp;gt; /etc/apt/sources.list.d/j">
+<meta name="twitter:title" content="gRPC教程——gRPC简介">
+<meta name="twitter:description" content="RPCRPC 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。 RPC只是描绘了 Client 与 Server 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开">
+<meta name="twitter:image" content="http://172.104.32.215/images/2019-03-25_180320.png">
 
 
 
@@ -143,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://172.104.32.215/2018/03/22/jenkins-docker-command-not-found/">
+  <link rel="canonical" href="http://172.104.32.215/2019/03/26/grpc-introduction/">
 
 
 
 
 
-  <title>Docker中启动jenkins容器，并在jenkins中使用docker 命令，解决docker command not found | Weshzhu Blogs</title>
+  <title>gRPC教程——gRPC简介 | Weshzhu Blogs</title>
   
 
 
@@ -292,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2018/03/22/jenkins-docker-command-not-found/">
+    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2019/03/26/grpc-introduction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Weshzhu">
@@ -309,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker中启动jenkins容器，并在jenkins中使用docker 命令，解决docker command not found</h1>
+          <h1 class="post-title" itemprop="name headline">gRPC教程——gRPC简介</h1>
         
 
         <div class="post-meta">
@@ -321,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-22T04:04:07+08:00">
-                2018-03-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-25T18:00:58Z">
+                2019-03-25
               </time>
             
 
@@ -344,19 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维/" itemprop="url" rel="index">
-                    <span itemprop="name">运维</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/gRPC/" itemprop="url" rel="index">
+                    <span itemprop="name">gRPC</span>
                   </a>
                 </span>
 
@@ -372,7 +363,7 @@
 
           
           
-             <span id="/2018/03/22/jenkins-docker-command-not-found/" class="leancloud_visitors" data-flag-title="Docker中启动jenkins容器，并在jenkins中使用docker 命令，解决docker command not found">
+             <span id="/2019/03/26/grpc-introduction/" class="leancloud_visitors" data-flag-title="gRPC教程——gRPC简介">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  653字
+                  1,489字
                 </span>
               
 
@@ -415,7 +406,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3分钟
+                  6分钟
                 </span>
               
             </div>
@@ -436,17 +427,40 @@
       
 
       
-        <p>首先，制作支持docker的jenkins镜像，基础镜像是<code>jenkins:2.60.3</code><br>参考<a href="https://container-solutions.com/running-docker-in-jenkins-in-docker/" target="_blank" rel="noopener">Running Docker in Jenkins (in Docker)</a></p>
-<p>编辑Dockerfile，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM jenkins:2.60.3</span><br><span class="line"></span><br><span class="line">USER root</span><br><span class="line">RUN echo &apos;&apos; &gt; /etc/apt/sources.list.d/jessie-backports.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian jessie main contrib non-free&quot; &gt; /etc/apt/sources.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian jessie-updates main contrib non-free&quot; &gt;&gt; /etc/apt/sources.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian-security jessie/updates main contrib non-free&quot; &gt;&gt; /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">RUN apt-get update       &amp;&amp; apt-get install -y sudo       &amp;&amp; apt-get install -y libltdl7       &amp;&amp; rm -rf /var/lib/apt/lists/*</span><br><span class="line">RUN echo &quot;jenkins ALL=NOPASSWD: ALL&quot; &gt;&gt; /etc/sudoers</span><br><span class="line"></span><br><span class="line">USER jenkins</span><br><span class="line">COPY plugins.txt /usr/share/jenkins/plugins.txt</span><br><span class="line">RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt</span><br></pre></td></tr></table></figure></p>
-<p>出现在执行docker命令时报：<code>docker: error while loading shared libraries: libltdl.so.7: cannot open shared object file: No such file or directory</code>错误<a href="https://www.cnblogs.com/leolztang/p/6934694.html" target="_blank" rel="noopener">解决办法，参考</a><br>加入如下代码后，问题解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN echo &apos;&apos; &gt; /etc/apt/sources.list.d/jessie-backports.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian jessie main contrib non-free&quot; &gt; /etc/apt/sources.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian jessie-updates main contrib non-free&quot; &gt;&gt; /etc/apt/sources.list \</span><br><span class="line">  &amp;&amp; echo &quot;deb http://mirrors.aliyun.com/debian-security jessie/updates main contrib non-free&quot; &gt;&gt; /etc/apt/sources.list</span><br></pre></td></tr></table></figure></p>
-<p>预先安装的插件，放入plugins.txt文件中，也可以部署jenkins后，手动安装插件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scm-api:latest</span><br><span class="line">git-client:latest</span><br><span class="line">git:latest</span><br><span class="line">greenballs:latest</span><br></pre></td></tr></table></figure></p>
-<p>启动jenkins容器，执行如下命令，启动jenkins容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -v $PWD:/var/jenkins_home -p 8080:8080 jenkins:v2.6</span><br></pre></td></tr></table></figure>
-<p>注意挂载<code>-v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker</code>，才可以共享宿主机的docker资源<br>指定工作目录：<code>-v $PWD:/var/jenkins_home</code>，将当前目录作为jenkins的工作目录。<br>此时，可以通过ip:8080端口访问jenkins，按照提示一步一步进行。配置完后，就可以使用了。<br>首先，我们新建一个pipeline构建计划，Jenkinsfile内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(&apos;Test&apos;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh &apos;docker images&apos;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>，执行立即构建，当执行pipeline中的<code>docker images</code>命令时，报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ docker images</span><br><span class="line">Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.37/images/json: dial unix /var/run/docker.sock: connect: permission denied</span><br></pre></td></tr></table></figure></p>
-<p>这是jenkinsfile中的命令在访问宿主机的<code>unix:///var/run/docker.sock</code>守护进程时，权限不足。在jenkins中，执行pipeline的用户是jenkins，可以在pipelines中的docker命令前增加<code>sudo</code>，便成功执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[test_pipeline] Running shell script</span><br><span class="line">+ sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jenkins             v2.6.3              7c6cba7c8a03        18 minutes ago      705MB</span><br><span class="line">jenkins             v2.6                bb042102b598        3 hours ago         705MB</span><br><span class="line">jenkins             2.60.3              cd14cecfdb3a        2 days ago          696MB</span><br><span class="line">busybox             latest              22c2dd5ee85d        3 days ago          1.16MB</span><br></pre></td></tr></table></figure>
+        <h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p><code>RPC</code> 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。</p>
+<p><code>RPC</code>只是描绘了 <code>Client</code> 与 <code>Server</code> 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开发 <code>RPC</code> 框架时，还应当考虑到服务的发现与注册，负载均衡，服务高可用等功能。目前市场上比较优秀的 <code>RPC</code> 框架有： <code>Thrift</code> （Facebook捐赠给Apache公司）、 <code>gRPC</code>（Google公司）， 国内优秀的 <code>RPC</code>框架有：<code>Dubbo</code> (Alibaba), <code>Motan</code> (sina) 。但是各个框架侧重点并不同，比如 <code>gRPC</code> 侧重于跨语言特性，适合于为不同语言提供通用远程服务。 <code>Dubbo</code> 侧重于高性能的远程调用以及服务发现和治理功能，适用于大型服务的微服务化拆分以及管理，对于特定语言（Java）的项目可以十分友好的透明化接入。但缺点是语言耦合度较高，跨语言支持难度较大。</p>
+<p>下面着重对 <code>RPC</code> 代表 <code>gRPC</code> 进行介绍：</p>
+<h2 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h2><p><code>gRPC</code> 是一种使用<code>protocol buffer</code>接口定义语言（<code>Interface Definition Language, IDL</code>）定义服务的方法。</p>
+<p>在 gRPC 里，客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法，能够更容易地创建分布式应用和服务。与许多 <code>RPC</code> 系统类似，<code>gRPC</code> 也是基于以下理念：定义一个服务(<code>service</code>)，指定其能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个接口，并运行一个 <code>gRPC</code> 服务器来处理客户端调用。在客户端拥有一个存根(<code>Stub</code>)能够像服务端一样的方法。</p>
+<p><code>gRPC</code> 由三部分组成：</p>
+<ul>
+<li><code>gRPC Stub</code>, 定义: 这是一个包含所有原型定义的配置文件，它还包含要提供的所有远程过程调用的声明。通过该配置文件，生成服务端和客户端通信的接口。</li>
+<li><code>gRPC server</code>, 定义：这是将为远程过程调用提供服务的实际服务器。类似于HTTP服务器</li>
+<li><code>gRPC client</code>, 定义：使用 <code>gRPC</code> 客户端访问远程 <code>gRPC</code> 服务器。这就是使用 <code>gRPC</code> 简单的原因。调用 <code>gRPC</code> 方法就像调用另一个函数一样。</li>
+</ul>
+<p><img src="/images/2019-03-25_180320.png" alt></p>
+<h3 id="Protocol-Buffer"><a href="#Protocol-Buffer" class="headerlink" title="Protocol Buffer"></a>Protocol Buffer</h3><p> <code>gRPC</code> 不使用 <code>JSON</code> 或 <code>XML</code> （非常庞大），而是使用Google <code>ProtocolBuffers</code> 发送数据。这可以使通过网络传输的消息的大小平均减少 30％ 以上，并且在某些情况下，消息大小可以小于原始消息的 20％。这直接转换为您的系统使用比以前少 30％-80％ 的带宽。</p>
+<p>默认情况下，<code>gRPC</code>使用协议缓冲区（<code>Protocol Buffers</code>），这是Google成熟的开放源码机制，用于序列化结构化数据（尽管它可以与其他数据格式（如JSON）一起使用）。</p>
+<p>该协议缓冲区可以理解成<strong>客户端</strong>和<strong>服务器</strong>约定好的通信数据结构。</p>
+<p>使用<code>Protocol Buffers</code>，首选定义一个数据结构，后续用于序列化为<code>proto</code>类型文件——以<code>.proto</code>为后缀的文本文件。<code>Protocol Buffer</code>数据被结构化为 <code>messages</code> 。每个<code>message</code>包含一系列 <code>key-value</code>对，被称为域（field）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">message Person &#123;</span><br><span class="line">    string name = 1;</span><br><span class="line">    int32 id = 2;</span><br><span class="line">    bool has_ponycopter = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，一旦定义了<code>Protocol Buffer</code>数据结构，可以使用<code>protocol buffer</code>编译器<code>protoc</code> 将定义的<code>proto file</code>编译成各个语言的数据访问类。这些方法为每个字段（比如 <code>name()</code>、<code>set_name()</code>）提供访问器，对整个数据结构进行序列化或者解析为原始字节，或者相反操作。比如选择<code>C++</code>语言，对上述举例经过编译后，生成一个<code>Person</code>类，可以使用该类填充、序列化和检索<code>Person</code>协议缓冲区消息。</p>
+<p>正如您将在我们的示例中看到的那样，您在普通<code>proto</code>文件中定义<code>grpc</code>服务，并将 <code>rpc</code> 方法参数和返回类型指定为协议缓冲消息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">syntax=&apos;&apos;</span><br><span class="line"></span><br><span class="line">// 定义 greeter service</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // 发送 greeter</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (请求消息结构)  request message</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (响应消息结构) response  message</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>gRPC</code>针对不同的语言，通过插件<code>protoc</code>通过<code>.proto</code>文件生成对应语言的代码。</p>
+<p><strong><code>Protocol buffer</code> 版本</strong></p>
+<p>通常，虽然您可以使用<code>proto2</code>（当前的默认协议缓冲版本），但我们建议您将 <code>proto3</code> 与 <code>gRPC</code> 一起使用，因为它允许您使用全系列的 <code>gRPC</code> 支持的语言，以及避免与 <code>proto2</code> 客户端通信时的兼容性问题<code>proto3</code>服务器，反之亦然</p>
+<h2 id="RPC-vs-RESTful"><a href="#RPC-vs-RESTful" class="headerlink" title="RPC vs RESTful"></a>RPC vs RESTful</h2><ol>
+<li>RPC 可以基于TCP、UDP或者HTTP进行消息传输，而RESTful只能基于HTTP协议进行消息传输.</li>
+<li>RPC 客户端和服务端紧耦合，客户端需要通过参数以及过程名称对服务端的<strong>方法</strong>和<strong>过程</strong>进行调用。而RESTful操作的对象是<strong>资源</strong>，RESTful对资源进行操作：增加、查找、删除等，主要是CRUD。</li>
+<li>操作的对象不一样。 <code>RPC</code> 操作的是方法和过程，它要操作的是方法对象。 <code>RESTful</code> 操作的是资源(resource)，而不是方法。</li>
+<li>RPC实现长连接：RPC over TCP （性能优越，适用于高并发）。RESTful实现长连接，必须通过HTTP协议的keep-alive实现长连接，但是遇到一个问题是 request-response模式是阻塞的。</li>
+</ol>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li><a href="https://grpc.io/docs/" target="_blank" rel="noopener">gRPC官方文档</a></li>
+<li><a href="https://doc.oschina.net/grpc" target="_blank" rel="noopener">gRPC 官方文档中文版</a></li>
+<li><a href="https://technokeeda.com/programming/microservices-on-grpc/" target="_blank" rel="noopener">MicroServices on gRPC</a></li>
+</ul>
 
       
       
@@ -472,9 +486,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
-          
-            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+            <a href="/tags/gRPC/" rel="tag"># gRPC</a>
           
         </div>
       
@@ -487,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/17/oracle-sql-seconds-notes-sec-2-sql-exec/" rel="next" title="精通Oracle SQL（第二版）读书笔记  -  第二章 SQL执行">
-                <i class="fa fa-chevron-left"></i> 精通Oracle SQL（第二版）读书笔记  -  第二章 SQL执行
+              <a href="/2019/03/25/algorithm-two-order-list-merge/" rel="next" title="合并两个有序数组——java实现">
+                <i class="fa fa-chevron-left"></i> 合并两个有序数组——java实现
               </a>
             
           </div>
@@ -496,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/13/private-registry-docker/" rel="prev" title="Centos搭建Docker私有仓库, Registry">
-                Centos搭建Docker私有仓库, Registry <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,8 +559,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Weshzhu">
           <p class="site-author-name" itemprop="name">Weshzhu</p>
@@ -632,6 +649,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC"><span class="nav-number">1.</span> <span class="nav-text">RPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gRPC"><span class="nav-number">2.</span> <span class="nav-text">gRPC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Protocol-Buffer"><span class="nav-number">2.1.</span> <span class="nav-text">Protocol Buffer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC-vs-RESTful"><span class="nav-number">3.</span> <span class="nav-text">RPC vs RESTful</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

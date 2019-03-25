@@ -103,22 +103,22 @@
 
 
 
-<meta name="description" content="NGINX Ingress Controller[TOC] Bare-metal considerations #####MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ing">
+<meta name="description" content="NGINX Ingress Controller[TOC] Bare-metal considerations MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ingress">
 <meta name="keywords" content="kubernetes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NGINX Ingress Controller教程">
 <meta property="og:url" content="http://172.104.32.215/2019/01/26/nginx-ingress-controller-introduct/index.html">
 <meta property="og:site_name" content="Weshzhu Blogs">
-<meta property="og:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations #####MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ing">
+<meta property="og:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ingress">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://172.104.32.215/images/metallb.jpg">
 <meta property="og:image" content="http://172.104.32.215/images/nodeport.jpg">
 <meta property="og:image" content="http://172.104.32.215/images/hostnetwork.jpg">
 <meta property="og:image" content="http://172.104.32.215/images/user_edge.jpg">
-<meta property="og:updated_time" content="2019-03-25T08:27:28.970Z">
+<meta property="og:updated_time" content="2019-03-25T08:37:21.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NGINX Ingress Controller教程">
-<meta name="twitter:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations #####MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ing">
+<meta name="twitter:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ingress">
 <meta name="twitter:image" content="http://172.104.32.215/images/metallb.jpg">
 
 
@@ -443,7 +443,7 @@
       
         <h2 id="NGINX-Ingress-Controller"><a href="#NGINX-Ingress-Controller" class="headerlink" title="NGINX Ingress Controller"></a>NGINX Ingress Controller</h2><p>[TOC]</p>
 <h3 id="Bare-metal-considerations"><a href="#Bare-metal-considerations" class="headerlink" title="Bare-metal considerations"></a>Bare-metal considerations</h3><ul>
-<li>#####MetalLB<br><code>MetalLB</code>提供了一个不仅仅只有云服务商才可提供的在<code>kubernetes</code>集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。<br>本教程介绍使用<a href="https://metallb.universe.tf/tutorial/layer2/" target="_blank" rel="noopener"> <strong>Layer 2 configuration mode</strong></a> <a href="https://metallb.universe.tf/" target="_blank" rel="noopener"><strong>MetalLB</strong></a>和<code>NGINX Ingress controller</code>在集群中有公开访问的节点。在此模式下，一个节点吸引<code>ingress-nginx</code>服务IP的所有流量。<br><strong>MetalLB:Layer2</strong><br><img src="/images/metallb.jpg" alt="MetalLB:Layer2"><br>例如：Given the following 3-node Kubernetes cluster (the external IP is added as an example, in most bare-metal environments this value is <none>)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl describe node</span><br><span class="line">NAME     STATUS   ROLES    EXTERNAL-IP</span><br><span class="line">host-1   Ready    master   203.0.113.1</span><br><span class="line">host-2   Ready    node     203.0.113.2</span><br><span class="line">host-3   Ready    node     203.0.113.3</span><br></pre></td></tr></table></figure>
+<li>MetalLB<br><code>MetalLB</code>提供了一个不仅仅只有云服务商才可提供的在<code>kubernetes</code>集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。<br>本教程介绍使用<a href="https://metallb.universe.tf/tutorial/layer2/" target="_blank" rel="noopener"> <strong>Layer 2 configuration mode</strong></a> <a href="https://metallb.universe.tf/" target="_blank" rel="noopener"><strong>MetalLB</strong></a>和<code>NGINX Ingress controller</code>在集群中有公开访问的节点。在此模式下，一个节点吸引<code>ingress-nginx</code>服务IP的所有流量。<br><strong>MetalLB:Layer2</strong><br><img src="/images/metallb.jpg" alt="MetalLB:Layer2"><br>例如：Given the following 3-node Kubernetes cluster (the external IP is added as an example, in most bare-metal environments this value is <none>)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl describe node</span><br><span class="line">NAME     STATUS   ROLES    EXTERNAL-IP</span><br><span class="line">host-1   Ready    master   203.0.113.1</span><br><span class="line">host-2   Ready    node     203.0.113.2</span><br><span class="line">host-3   Ready    node     203.0.113.3</span><br></pre></td></tr></table></figure>
 </none></li>
 </ul>
 <p>依照下方<code>yaml</code>文件创建<code>ComfigMap</code>, MetalLB获得池中其中一个IP地址的所有权，并相应地更新<code>ingress-nginx</code>服务的<code>loadBalancer IP</code>字段。.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ConfigMap</span><br><span class="line">metadata:</span><br><span class="line">  namespace: metallb-system</span><br><span class="line">  name: config</span><br><span class="line">data:</span><br><span class="line">  config: |</span><br><span class="line">    address-pools:</span><br><span class="line">    - name: default</span><br><span class="line">      protocol: layer2</span><br><span class="line">      addresses:</span><br><span class="line">      - 203.0.113.2-203.0.113.3</span><br></pre></td></tr></table></figure></p>
@@ -642,7 +642,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -653,7 +653,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -664,7 +664,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -770,7 +770,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共14.4k字</span>
+  <span class="post-count">博客全站共15.9k字</span>
 </div>
 
         
