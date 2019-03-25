@@ -3,7 +3,7 @@ title: 精通Oracle SQL（第二版）读书笔记   -  第一章 SQL核心
 date: 2016-12-05 13:52:54
 tags:
   - Oracle
-categoriesi:
+categories:
   - Oracle
 ---
 
