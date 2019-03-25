@@ -23,8 +23,8 @@ categories:
 
 `gRPC` 由三部分组成：
 
- - `gRPC Stub`, 定义: 这是一个包含所有原型定义的配置文件，它还包含要提供的所有远程过程调用的声明。通过该配置文件，生成服务端和客户端通信的接口。
- - `gRPC server`, 定义：这是将为远程过程调用提供服务的实际服务器。类似于HTTP服务器
+ - `gRPC Stub`, 定义: 这是一个包含所有原型定义的配置文件，它还包含要提供的所有远程过程调用的声明。通过该配置文件，生成服务端和客户端通信的接口（数据结构）。
+ - `gRPC server`, 定义：为远程过程调用提供服务的实际服务器。类似于HTTP服务器
  - `gRPC client`, 定义：使用 `gRPC` 客户端访问远程 `gRPC` 服务器。这就是使用 `gRPC` 简单的原因。调用 `gRPC` 方法就像调用另一个函数一样。
 
 
@@ -56,12 +56,15 @@ message Person {
 正如您将在我们的示例中看到的那样，您在普通`proto`文件中定义`grpc`服务，并将 `rpc` 方法参数和返回类型指定为协议缓冲消息：
 
 ```
+// 定义协议缓冲版本, 比如： syntax='proto3'
 syntax=''
 
-// 定义 greeter service
+// 定义服务端服务greeter service
 service Greeter {
   // 发送 greeter
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  //HelloRequest 请求的数据结构  HelloReply 返回的数据类型
+  // SayHello为服务端方法
+  rpc SayHello (HelloRequest) returns (HelloReply) {}  
 }
 
 // (请求消息结构)  request message
