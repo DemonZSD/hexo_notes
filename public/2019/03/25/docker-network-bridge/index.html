@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Weshzhu Blogs">
 <meta property="og:description" content="Docker网络驱动(network driver)之————网桥(bridge)  在《计算机网络》这本教材中，我们学习过，网桥是一种工作在数据链路层，对帧进行转发的技术，它根据MAC帧的目标地址对收到的帧进行转发和过滤。网桥可以是硬件设备也可以是在主机内核（kernel）中运行的软件设备。  在Docker的网络系统中，网桥bridge network是默认的网络驱动。使用软件桥接器，允许连接">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-25T05:35:21.782Z">
+<meta property="og:updated_time" content="2019-03-25T05:45:06.757Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker网络驱动(network driver)之————网桥(bridge)">
 <meta name="twitter:description" content="Docker网络驱动(network driver)之————网桥(bridge)  在《计算机网络》这本教材中，我们学习过，网桥是一种工作在数据链路层，对帧进行转发的技术，它根据MAC帧的目标地址对收到的帧进行转发和过滤。网桥可以是硬件设备也可以是在主机内核（kernel）中运行的软件设备。  在Docker的网络系统中，网桥bridge network是默认的网络驱动。使用软件桥接器，允许连接">
@@ -440,7 +440,7 @@
 <blockquote>
 <p>在《计算机网络》这本教材中，我们学习过，<strong>网桥</strong>是一种工作在数据链路层，对帧进行转发的技术，它根据MAC帧的目标地址对收到的帧进行转发和过滤。网桥可以是硬件设备也可以是在主机内核（kernel）中运行的软件设备。</p>
 </blockquote>
-<p>在Docker的网络系统中，<strong>网桥</strong><code>bridge network</code>是默认的网络驱动。使用软件桥接器，允许连接到同一桥接网络的<strong>容器</strong>之间进行通信，同时隔离那些未连接到该<strong>网桥</strong>的容器。当启动<code>Docker daemon</code>（<code>docker</code>守护进程)时，会自动创建<strong>网桥</strong>（<code>bridge network</code>），称为:<code>bridge</code>，即对应host上的<code>docker0</code>。<code>Docker netword</code>会自动在主机中安装规则，以阻止不同网桥上的容器进行相互通信。</p>
+<p>在Docker的网络系统中，<strong>网桥</strong><code>bridge network</code>是默认的网络驱动。使用软件桥接器，允许连接到同一桥接网络的<strong>容器</strong>之间进行通信，同时隔离那些未连接到该<strong>网桥</strong>的容器。当启动<code>Docker daemon</code>（<code>docker</code>守护进程)时，会自动创建<strong>网桥</strong>（<code>bridge network</code>），称为:<code>bridge</code>，即对应host上的<code>docker0</code>。<code>Docker network</code>会自动在主机中安装规则，以阻止不同网桥上的容器进行相互通信。</p>
 <p>查看主机上的网络设备<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ ip addr </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:eb:89:b8 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic enp0s3</span><br><span class="line">       valid_lft 84147sec preferred_lft 84147sec</span><br><span class="line">    inet6 fe80::eef9:c7e0:7365:65b6/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: enp0s8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:22:76:1d brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.56.102/24 brd 192.168.56.255 scope global noprefixroute dynamic enp0s8</span><br><span class="line">       valid_lft 996sec preferred_lft 996sec</span><br><span class="line">    inet6 fe80::a88:e4da:b641:f973/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:60:e0:e9:55 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::42:60ff:fee0:e955/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure></p>
 <p>查看docker网络驱动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">b549b06a92e7        bridge              bridge              local</span><br><span class="line">c5149e25deea        host                host                local</span><br><span class="line">bfa90bfc3dfe        none                null                local</span><br></pre></td></tr></table></figure></p>
 <p><strong>网桥</strong><code>bridge network</code>适用于在同一个Docker守护进程的主机上运行的容器。对于在不同Docker守护进程主机上运行的容器之间的通信，可以在操作系统级别管理路由，可以使用原生的<a href="https://docs.docker.com/network/overlay/" target="_blank" rel="noopener">覆盖网络<code>overlay</code></a>和<a href="https://docs.docker.com/network/macvlan/" target="_blank" rel="noopener"><code>macvlan</code></a>。也可使用第三方网络插件：常用的包括 flannel、weave 和 calico</p>
@@ -629,7 +629,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -640,7 +640,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -651,7 +651,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -757,7 +757,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共9.0k字</span>
+  <span class="post-count">博客全站共12.0k字</span>
 </div>
 
         
