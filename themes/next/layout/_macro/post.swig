@@ -309,6 +309,9 @@
       {% else %}
         {{ post.content }}
       {% endif  %}
+      {% if theme.ad_display.enable %}
+        {% include 'google_adsense.swig' %}
+      {% endif %} 
     </div>
     {#####################}
     {### END POST BODY ###}
