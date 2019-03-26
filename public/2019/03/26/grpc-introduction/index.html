@@ -112,7 +112,7 @@
 <meta property="og:description" content="RPCRPC 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。 RPC只是描绘了 Client 与 Server 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://172.104.32.215/images/2019-03-25_180320.png">
-<meta property="og:updated_time" content="2019-03-25T10:04:49.228Z">
+<meta property="og:updated_time" content="2019-03-25T13:14:50.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gRPC教程——gRPC简介">
 <meta name="twitter:description" content="RPCRPC 远程过程调用（Remote Procedure Call，缩写为 RPC）是一个计算机通信协议，该协议允许一台主机上的应用程序调用另一台主机上的应用程序中的方法。 远程过程调用总是由客户端对服务器发出一个执行若干过程请求，并用客户端提供的参数。执行结果将返回给客户端。 RPC只是描绘了 Client 与 Server 之间的点对点调用流程，还需要考虑服务的高可用、负载均衡等问题。在开">
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,489字
+                  1,533字
                 </span>
               
 
@@ -434,8 +434,8 @@
 <p>在 gRPC 里，客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法，能够更容易地创建分布式应用和服务。与许多 <code>RPC</code> 系统类似，<code>gRPC</code> 也是基于以下理念：定义一个服务(<code>service</code>)，指定其能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个接口，并运行一个 <code>gRPC</code> 服务器来处理客户端调用。在客户端拥有一个存根(<code>Stub</code>)能够像服务端一样的方法。</p>
 <p><code>gRPC</code> 由三部分组成：</p>
 <ul>
-<li><code>gRPC Stub</code>, 定义: 这是一个包含所有原型定义的配置文件，它还包含要提供的所有远程过程调用的声明。通过该配置文件，生成服务端和客户端通信的接口。</li>
-<li><code>gRPC server</code>, 定义：这是将为远程过程调用提供服务的实际服务器。类似于HTTP服务器</li>
+<li><code>gRPC Stub</code>, 定义: 这是一个包含所有原型定义的配置文件，它还包含要提供的所有远程过程调用的声明。通过该配置文件，生成服务端和客户端通信的接口（数据结构）。</li>
+<li><code>gRPC server</code>, 定义：为远程过程调用提供服务的实际服务器。类似于HTTP服务器</li>
 <li><code>gRPC client</code>, 定义：使用 <code>gRPC</code> 客户端访问远程 <code>gRPC</code> 服务器。这就是使用 <code>gRPC</code> 简单的原因。调用 <code>gRPC</code> 方法就像调用另一个函数一样。</li>
 </ul>
 <p><img src="/images/2019-03-25_180320.png" alt></p>
@@ -446,7 +446,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">message Person &#123;</span><br><span class="line">    string name = 1;</span><br><span class="line">    int32 id = 2;</span><br><span class="line">    bool has_ponycopter = 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后，一旦定义了<code>Protocol Buffer</code>数据结构，可以使用<code>protocol buffer</code>编译器<code>protoc</code> 将定义的<code>proto file</code>编译成各个语言的数据访问类。这些方法为每个字段（比如 <code>name()</code>、<code>set_name()</code>）提供访问器，对整个数据结构进行序列化或者解析为原始字节，或者相反操作。比如选择<code>C++</code>语言，对上述举例经过编译后，生成一个<code>Person</code>类，可以使用该类填充、序列化和检索<code>Person</code>协议缓冲区消息。</p>
 <p>正如您将在我们的示例中看到的那样，您在普通<code>proto</code>文件中定义<code>grpc</code>服务，并将 <code>rpc</code> 方法参数和返回类型指定为协议缓冲消息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">syntax=&apos;&apos;</span><br><span class="line"></span><br><span class="line">// 定义 greeter service</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // 发送 greeter</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (请求消息结构)  request message</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (响应消息结构) response  message</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 定义协议缓冲版本, 比如： syntax=&apos;proto3&apos;</span><br><span class="line">syntax=&apos;&apos;</span><br><span class="line"></span><br><span class="line">// 定义服务端服务greeter service</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // 发送 greeter</span><br><span class="line">  //HelloRequest 请求的数据结构  HelloReply 返回的数据类型</span><br><span class="line">  // SayHello为服务端方法</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (请求消息结构)  request message</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// (响应消息结构) response  message</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>gRPC</code>针对不同的语言，通过插件<code>protoc</code>通过<code>.proto</code>文件生成对应语言的代码。</p>
 <p><strong><code>Protocol buffer</code> 版本</strong></p>
 <p>通常，虽然您可以使用<code>proto2</code>（当前的默认协议缓冲版本），但我们建议您将 <code>proto3</code> 与 <code>gRPC</code> 一起使用，因为它允许您使用全系列的 <code>gRPC</code> 支持的语言，以及避免与 <code>proto2</code> 客户端通信时的兼容性问题<code>proto3</code>服务器，反之亦然</p>
@@ -508,6 +508,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/fabric2-tutorial/" rel="prev" title="Fabric2.4 Tutorial">
+                Fabric2.4 Tutorial <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -582,7 +586,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -593,7 +597,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -604,7 +608,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -710,7 +714,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共15.9k字</span>
+  <span class="post-count">博客全站共19.7k字</span>
 </div>
 
         
