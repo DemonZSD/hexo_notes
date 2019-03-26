@@ -84,8 +84,7 @@ Fabric配置系统，主要依赖于Invoke功能（`invoke.config.Config`），�
 
 - `run.replace_env: True`，在远程服务器执行的shell命令，将不会继承当前线程的环境变量。
   
-  处于安全考虑：默认情况下远程泄漏本地环境数据是不卫生的。
-- 
+  处于安全考虑：默认情况下远程泄漏本地环境数据是不推荐的。
 
 #### 扩展Invoke-level
 
