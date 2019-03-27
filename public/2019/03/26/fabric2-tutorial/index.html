@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="weshzhu blogs">
 <meta property="og:description" content="NetworkSSH连接网关背景出于安全考虑，服务器经常会加一道防火墙，从而阻止从互联网直接访问服务器。如果需要连接防火墙内部的网络，通常是通过中间主机（被称为“跳转机”、“堡垒机”、“网关或代理”、“弹跳”） 网关需要与网关系统建立初始/外部SSH连接，然后使用该连接作为到最终/内部主机的“真实”连接的传输。 则可以通过 ssh gatewayhost去真正连接 ssh internalhost">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-26T01:29:57.415Z">
+<meta property="og:updated_time" content="2019-03-27T09:26:46.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fabric2.4 Tutorial">
 <meta name="twitter:description" content="NetworkSSH连接网关背景出于安全考虑，服务器经常会加一道防火墙，从而阻止从互联网直接访问服务器。如果需要连接防火墙内部的网络，通常是通过中间主机（被称为“跳转机”、“堡垒机”、“网关或代理”、“弹跳”） 网关需要与网关系统建立初始/外部SSH连接，然后使用该连接作为到最终/内部主机的“真实”连接的传输。 则可以通过 ssh gatewayhost去真正连接 ssh internalhost">
@@ -468,9 +468,8 @@
 </ul>
 <h3 id="配置默认值"><a href="#配置默认值" class="headerlink" title="配置默认值"></a>配置默认值</h3><h4 id="重写Invoke-level"><a href="#重写Invoke-level" class="headerlink" title="重写Invoke-level"></a>重写Invoke-level</h4><ul>
 <li><p><code>run.replace_env: True</code>，在远程服务器执行的shell命令，将不会继承当前线程的环境变量。</p>
-<p>处于安全考虑：默认情况下远程泄漏本地环境数据是不卫生的。</p>
+<p>处于安全考虑：默认情况下远程泄漏本地环境数据是不推荐的。</p>
 </li>
-<li></li>
 </ul>
 <h4 id="扩展Invoke-level"><a href="#扩展Invoke-level" class="headerlink" title="扩展Invoke-level"></a>扩展Invoke-level</h4><p><code>runners.remote</code>:在Invoke中，<code>runner</code>拥有单独键：<code>local</code>(mapping to <code>Local</code>)，Fabric添加新的键<code>remote</code>（mapping to <code>Remote</code>）</p>
 <h4 id="Fabric自定义默认值"><a href="#Fabric自定义默认值" class="headerlink" title="Fabric自定义默认值"></a>Fabric自定义默认值</h4><blockquote>
