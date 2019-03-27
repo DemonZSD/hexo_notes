@@ -91,7 +91,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Weshzhu Blogs" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="weshzhu blogs" type="application/atom+xml">
 
 
 
@@ -106,13 +106,13 @@
 <meta name="description" content="持之以恒，一日不作，一日不食~~">
 <meta name="keywords" content="weshzhu, 微什猪, weshzhu blogs, 微什猪的博客, 微什猪的分享">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Weshzhu Blogs">
-<meta property="og:url" content="http://172.104.32.215/page/2/index.html">
-<meta property="og:site_name" content="Weshzhu Blogs">
+<meta property="og:title" content="weshzhu blogs">
+<meta property="og:url" content="http://weshzhu.com/page/2/index.html">
+<meta property="og:site_name" content="weshzhu blogs">
 <meta property="og:description" content="持之以恒，一日不作，一日不食~~">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Weshzhu Blogs">
+<meta name="twitter:title" content="weshzhu blogs">
 <meta name="twitter:description" content="持之以恒，一日不作，一日不食~~">
 
 
@@ -142,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://172.104.32.215/page/2/">
+  <link rel="canonical" href="http://weshzhu.com/page/2/">
 
 
 
 
 
-  <title>Weshzhu Blogs</title>
+  <title>weshzhu blogs</title>
   
 
 
@@ -186,12 +186,12 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Weshzhu Blogs</span>
+        <span class="site-title">weshzhu blogs</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle">weshzhu</p>
+        <p class="site-subtitle">微什猪</p>
       
   </div>
 
@@ -293,16 +293,230 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2018/09/13/private-registry-docker/">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/2019/01/26/nginx-ingress-controller-introduct/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Weshzhu">
+      <meta itemprop="name" content="weshzhu">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weshzhu Blogs">
+      <meta itemprop="name" content="weshzhu blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/26/nginx-ingress-controller-introduct/" itemprop="url">NGINX Ingress Controller教程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-25T16:26:10Z">
+                2019-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/01/26/nginx-ingress-controller-introduct/" class="leancloud_visitors" data-flag-title="NGINX Ingress Controller教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,453字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  12分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          NGINX Ingress Controller[TOC]
+Bare-metal considerations
+MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/26/nginx-ingress-controller-introduct/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+      </div>
+      
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/2018/09/13/private-registry-docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="weshzhu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="weshzhu blogs">
     </span>
 
     
@@ -454,14 +668,6 @@
           <!--/noindex-->
         
       
-      
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-       
     </div>
     
     
@@ -472,7 +678,16 @@
     
 
     
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
+      </div>
+      
     <footer class="post-footer">
       
 
@@ -506,16 +721,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2018/03/22/jenkins-docker-command-not-found/">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/2018/03/22/jenkins-docker-command-not-found/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Weshzhu">
+      <meta itemprop="name" content="weshzhu">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weshzhu Blogs">
+      <meta itemprop="name" content="weshzhu blogs">
     </span>
 
     
@@ -666,14 +881,6 @@
           <!--/noindex-->
         
       
-      
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-       
     </div>
     
     
@@ -684,7 +891,16 @@
     
 
     
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
+      </div>
+      
     <footer class="post-footer">
       
 
@@ -718,16 +934,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2017/08/17/oracle-sql-seconds-notes-sec-2-sql-exec/">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/2017/08/17/oracle-sql-seconds-notes-sec-2-sql-exec/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Weshzhu">
+      <meta itemprop="name" content="weshzhu">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weshzhu Blogs">
+      <meta itemprop="name" content="weshzhu blogs">
     </span>
 
     
@@ -870,14 +1086,6 @@
           <!--/noindex-->
         
       
-      
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-       
     </div>
     
     
@@ -888,7 +1096,16 @@
     
 
     
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
+      </div>
+      
     <footer class="post-footer">
       
 
@@ -922,16 +1139,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://172.104.32.215/2016/12/05/oracle-sql-second-version-note/">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/2016/12/05/oracle-sql-second-version-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Weshzhu">
+      <meta itemprop="name" content="weshzhu">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weshzhu Blogs">
+      <meta itemprop="name" content="weshzhu blogs">
     </span>
 
     
@@ -1072,14 +1289,6 @@
           <!--/noindex-->
         
       
-      
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-       
     </div>
     
     
@@ -1090,7 +1299,16 @@
     
 
     
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
+      </div>
+      
     <footer class="post-footer">
       
 
@@ -1148,8 +1366,8 @@
 
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Weshzhu">
-          <p class="site-author-name" itemprop="name">Weshzhu</p>
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="weshzhu">
+          <p class="site-author-name" itemprop="name">weshzhu</p>
            
               <p class="site-description motion-element" itemprop="description">持之以恒，一日不作，一日不食~~ </p>
           
@@ -1159,7 +1377,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1220,6 +1438,32 @@
 
         
         
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.csdn.net/zsd498537806" title="CSDN" target="_blank">CSDN</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.baidu.com" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.google.com" title="Google" target="_blank">Google</a>
+                </li>
+              
+            </ul>
+          </div>
+        
 
         
 
@@ -1248,7 +1492,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Weshzhu</span>
+  <span class="author" itemprop="copyrightHolder">weshzhu</span>
 </div>
 
 
@@ -1271,7 +1515,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共19.7k字</span>
+  <span class="post-count">博客全站共21.4k字</span>
 </div>
 
         

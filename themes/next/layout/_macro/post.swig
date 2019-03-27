@@ -309,9 +309,6 @@
       {% else %}
         {{ post.content }}
       {% endif  %}
-      {% if theme.ad_display.enable %}
-        {% include 'google_adsense.swig' %}
-      {% endif %} 
     </div>
     {#####################}
     {### END POST BODY ###}
@@ -330,11 +327,15 @@
     {% endif %}
 
     {% if theme.post_copyright.enable and not is_index %}
-      <div>
+      <div style='border-left: 0px solid #ff8d00; margin-bottom: 30px;'>
         {% include 'post-copyright.swig' with { post: post } %}
       </div>
     {% endif %}
-
+    {% if theme.ad_display.enable %}
+      <div>
+        {% include 'google_adsense.swig' %}
+      </div>
+      {% endif %}
     <footer class="post-footer">
       {% if post.tags and post.tags.length and not is_index %}
         <div class="post-tags">

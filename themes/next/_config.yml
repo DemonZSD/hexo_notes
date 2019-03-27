@@ -119,11 +119,14 @@ social_icons:
   csdn: cuttlefish
 
 # Blog rolls
-#links_title: Links
+links_title: 友情链接
 #links_layout: block
-#links_layout: inline
-#links:
-  #Title: http://example.com/
+links_layout: inline
+links:
+  Github: https://github.com
+  CSDN: https://blog.csdn.net/zsd498537806
+  百度: https://www.baidu.com
+  Google: https://www.google.com
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
@@ -224,7 +227,7 @@ post_wordcount:
 
 # Declare license on posts
 post_copyright:
-  enable: false
+  enable: true
   license: CC BY-NC-SA 3.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
 

@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 'Weshzhu Blogs'
-subtitle: 'weshzhu'
+title: 'weshzhu blogs'
+subtitle: '微什猪'
 description: '持之以恒，一日不作，一日不食~~ '
 keywords: 'weshzhu, 微什猪, weshzhu blogs, 微什猪的博客, 微什猪的分享'
-author: 'Weshzhu'
+author: 'weshzhu'
 language: 'zh-Hans'
 timezone: UTC
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://172.104.32.215
+url: http://weshzhu.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
