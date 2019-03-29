@@ -1,3 +1,4 @@
+
 ---
 title: 解决 kube-apiserver 报  too many open files 错误信息
 date: 2019-03-29 10:31:21
@@ -10,7 +11,9 @@ categories:
 ---
 
 
-##### 错误信息如下：
+在k8s集群中，在获取资源时，会遇到 `kubectl ` 命令阻塞，经查看发现是 kube-apiserver 报错，搜索解决方案，发现 github 上已经有人遇到过该问题，并提交了 [`Issues#703`](https://github.com/juju-solutions/bundle-canonical-kubernetes/issues/) 和 [`Issues#67004`](https://github.com/kubernetes/kubernetes/issues/67004)
+
+**错误信息如下：**
 
 ```
 $ systemctl status kube-apiserver -l
@@ -33,14 +36,12 @@ Mar 28 16:52:46 aios-4 kube-apiserver[75456]: I0328 16:52:46.257040   75456 logs
 Mar 28 16:52:47 aios-4 kube-apiserver[75
 ```
 
-##### 环境信息：
+**环境信息：**
 
 - Kubernetes version (use kubectl version): v1.11.0
-- Cloud provider or hardware configuration: Azure
+- Cloud provider or hardware configuration: vultr
 - OS (e.g. from /etc/centos-release): CentOS Linux release 7.6.1810 (Core)
-- Kernel (e.g. uname -a): Linux  3.10.0-957.1.3.el7.x86_64
-- Install tools: none
-- Others:
+- Kernel (e.g. uname -a): Linux  vultr.guest 3.10.0-957.1.3.el7.x86_64
 
 
 Linux操作系统中，有一个控制系统 `open files` 的参数，可以通过 `ulimit -a` 进行查看：
