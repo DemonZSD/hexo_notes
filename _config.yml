@@ -6,7 +6,7 @@
 title: 'weshzhu blogs'
 subtitle: '微什猪'
 description: '持之以恒，一日不作，一日不食~~ '
-keywords: 'weshzhu, 微什猪, weshzhu blogs, 微什猪的博客, 微什猪的分享'
+keywords: 'weshzhu, 微什猪, weshzhu blogs, 微什猪的博客, 微什猪的分享, docker, 运维, kubernetes, gRPC, gRPC简介'
 author: 'weshzhu'
 language: 'zh-Hans'
 timezone: UTC
@@ -15,8 +15,15 @@ timezone: UTC
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://weshzhu.com
 root: /
-permalink: :year/:month/:day/:title/
+# permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
+
+
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
 
 # Directory
 source_dir: source

@@ -1,6 +1,8 @@
 ---
 title: Centos 安装 docker
 date: 2019-03-25 13:35:59
+keywords: weshzhu, weshzhu blogs, docker, install docker, centos install docker
+description: centos install docker 
 tags:
   - docker
 categories:

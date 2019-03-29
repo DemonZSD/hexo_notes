@@ -1,6 +1,8 @@
 ---
 title: gRPC教程—— gRPC 简单实现Server和Client
 date: 2019-03-27 16:36:54
+keywords: weshzhu, weshzhu blogs, gRPC, gRPC Python, python, gRPC client, gRPC server, gRPC tutorial
+description: python实现简单 gRPC Server和Client
 tags:
   - gRPC
 categories:

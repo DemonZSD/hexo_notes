@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="weshzhu, weshzhu blogs, gRPC, gRPC Python, python, gRPC client, gRPC server, gRPC tutorial">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="weshzhu blogs" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="python实现简单 gRPC Server和Client">
+<meta name="keywords" content="weshzhu, weshzhu blogs, gRPC, gRPC Python, python, gRPC client, gRPC server, gRPC tutorial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gRPC教程—— gRPC 简单实现Server和Client">
+<meta property="og:url" content="http://weshzhu.com/first-grpc-example/index.html">
+<meta property="og:site_name" content="weshzhu blogs">
+<meta property="og:description" content="python实现简单 gRPC Server和Client">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-29T06:25:48.989Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gRPC教程—— gRPC 简单实现Server和Client">
+<meta name="twitter:description" content="python实现简单 gRPC Server和Client">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://weshzhu.com/first-grpc-example/">
+
+
+
+
+
+  <title>gRPC教程—— gRPC 简单实现Server和Client | weshzhu blogs</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">weshzhu blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">微什猪</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/first-grpc-example/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="weshzhu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="weshzhu blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">gRPC教程—— gRPC 简单实现Server和Client</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-27T16:36:54Z">
+                2019-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gRPC/" itemprop="url" rel="index">
+                    <span itemprop="name">gRPC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/first-grpc-example/" class="leancloud_visitors" data-flag-title="gRPC教程—— gRPC 简单实现Server和Client">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,665字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8分钟
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  python实现简单 gRPC Server和Client
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>在<a href="http://www.weshzhu.com/2019/03/26/grpc-introduction/" target="_blank" rel="noopener">上篇教程</a> 简述了 <code>RPC</code> 和 <code>gRPC</code> 的概念，初步了解了 <code>gRPC</code> 的工作原理，这篇文章将使用 Python 语言对 <code>gRPC</code> 进行简单的实现。可以加深对 <code>gRPC</code> 概念的理解。</p>
+</blockquote>
+<p>本教程实验环境</p>
+<ul>
+<li>OS: Centos7.4</li>
+<li>Python: 2.7</li>
+</ul>
+<h3 id="安装grocio工具"><a href="#安装grocio工具" class="headerlink" title="安装grocio工具"></a>安装grocio工具</h3><p>假设已经安装了 <code>virtualenv</code> 工具，具体安装教程见 <a href="https://virtualenv.pypa.io/en/stable/installation/" target="_blank" rel="noopener"> virtualenv 16.4.3 documentation</a>。</p>
+<p>首先，创建 python 独立运行环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir grpc_tutorial </span><br><span class="line">$ cd grpc_tutorial</span><br><span class="line">$ virtualenv venv</span><br><span class="line">$ source venv/bin/activate</span><br><span class="line">$ mkdir -p demo/client demo/server demo/protos demo/generate_src</span><br><span class="line">$ touch requirements.txt</span><br></pre></td></tr></table></figure>
+<p>然后，安装编译工具： <code>grpcio</code> 和 <code>grpcio-tools</code>：</p>
+<p>将如下内容添加到文本文件 requirements.txt 中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grpcio</span><br><span class="line">grpcio-tools</span><br></pre></td></tr></table></figure>
+<p>使用 pip 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<p>完整的 gRPC service 包含三部分：</p>
+<ul>
+<li><p>Proto File: 包含当前包的所有服务的定义。将用于生成 <code>gRPC</code> 服务器和客户端使用的<code>Stubs</code>。</p>
+</li>
+<li><p>gRPC Server: gRPC 服务，用于接收客户端发来的 request , 类似于HTTP Server</p>
+</li>
+<li><p>gRPC Client: gRPC 客户端，分布于各个主机中，用于访问远程 gRPC 服务器。从本质上讲，这使得 gRPC 调用就像在同一代码库本身中调用本机函数。</p>
+</li>
+</ul>
+<h3 id="编写-Proto-文件"><a href="#编写-Proto-文件" class="headerlink" title="编写 Proto 文件"></a>编写 Proto 文件</h3><p>为 <code>gRPC</code> 服务创建一个 <code>proto</code> 文件：<code>digestor.proto</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">syntax = &apos;proto3&apos;;</span><br><span class="line"></span><br><span class="line">// You can ignore these for now</span><br><span class="line">//option java_multiple_files = true;</span><br><span class="line">//option java_package = &quot;example-digestor.resource.grpc.digestor&quot;;</span><br><span class="line">//option java_outer_classname = &quot;DigestorProto&quot;;</span><br><span class="line">//option objc_class_prefix = &quot;DIGEST&quot;;</span><br><span class="line"></span><br><span class="line">package digestor;</span><br><span class="line"></span><br><span class="line">service Digestor&#123;</span><br><span class="line">    // 定义一个 gRPC 服务方法， 在此也可以定义多个方法</span><br><span class="line">    // rpc DoSomething(ClassType1) returns (ClassType2) &#123;&#125;;</span><br><span class="line">    rpc GetDigestor(DigestMessage) returns (DigestedMessage) &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">message DigestMessage&#123;</span><br><span class="line">    string ToDigest = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message DigestedMessage&#123;</span><br><span class="line">    string Digested = 1;</span><br><span class="line">    bool WasDigest = 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面对上述 <code>proto file</code>进行详解:  </p>
+<p>该文件的第一行 <code>syntax = &quot;proto3&quot;</code> 声明了 <code>proto</code> 类型和方言。</p>
+<p>以上被注释的代码是Java的包定义，我们也需要为java生成存根（因为gRPC提供了多语言实现）。最后一行声明了gRPC包的名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// You can ignore these for now</span><br><span class="line">//option java_multiple_files = true;</span><br><span class="line">//option java_package = &quot;example-digestor.resource.grpc.digestor&quot;;</span><br><span class="line">//option java_outer_classname = &quot;DigestorProto&quot;;</span><br><span class="line">//option objc_class_prefix = &quot;DIGEST&quot;;</span><br><span class="line">package digestor;</span><br></pre></td></tr></table></figure>
+<p>下述代码声明了名称为 <code>Digestor</code> 的 <code>gRPC</code> 服务，该服务提供了一个方法 <code>GetDigest</code> 用于接收 <code>DigestMessage</code> 类型的消息，返回 <code>DigestedMessage</code> 类型的消息。也可以声明多个服务方法，用于处理不同的业务逻辑。</p>
+<p>对<code>GetDigest</code> 方法要使用的数据类型 <code>DigestMessage</code> 和 <code>DigestedMessage</code> 进行定义。其中 <code>DigestMessage</code> 数据结构包含了一个 <code>string</code> 类型的变量 <code>ToDigest</code>。 <code>DigestedMessage</code> 数据结构包含了 <code>string</code> 类型的变量 <code>Digested</code> 和 <code>bool</code> 类型的变量 <code>WasDigested</code> 。数字 <code>1</code> 和 <code>2</code> 表示了变量的顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">service Digestor&#123;</span><br><span class="line">    rpc GetDigest(DigestMessage) returns (DigestedMessage) &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">message DigestMessage&#123;</span><br><span class="line"> string ToDigest=1;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">message DigestedMessage&#123;</span><br><span class="line"> string Digested=1;</span><br><span class="line"> bool WasDigested=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="生成-Stubs"><a href="#生成-Stubs" class="headerlink" title="生成 Stubs"></a>生成 Stubs</h3><p>通过 <code>proto</code> 文件 <code>digestor.proto</code> 生成 <code>gRPC Stubs</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd demo/protos</span><br><span class="line">$ python -m grpc_tools.protoc --proto_path=. ./digestor.proto --grpc_python_out=../generate_src --python_out=../generate_src</span><br></pre></td></tr></table></figure>
+<p>该命令可以在目录 <code>generate_src</code> 生成两个文件：<code>digestor_pb2.py</code> 和 <code>digestor_pb2_grpc.py</code>。 后续编写 <strong>服务端</strong> 和 <strong>客户端</strong> 代码时，需要用到生成的 <code>Stubs</code>。</p>
+<p><code>--proto_path</code>： 指定要搜索 proto 文件的目录。可指定多个目录, 目录将按顺序搜索。如果没有给出，则默认当前工作目录。<br><code>--python_out</code>: 生成的 python 源码。 在此例子中，生成的源码为 <code>digestor_pb2.py</code><br><code>--grpc_python_out</code>: 生成的 python 源码。 在此例子中，生成的源码为 <code>digestor_pb2_grpc.py</code></p>
+<p>具体 <code>grpc_tools.protoc</code> 参数，请使用 <code>python -m grpc_tools.protoc --help</code> 查看</p>
+<h3 id="编写-gRPC-服务端代码"><a href="#编写-gRPC-服务端代码" class="headerlink" title="编写 gRPC 服务端代码"></a>编写 gRPC 服务端代码</h3><p>创建一个 <code>digester_server.py</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line"># @Author: weshzhu</span><br><span class="line"># @Date: 2019-03-27 14-29</span><br><span class="line"># @FUNCTION: </span><br><span class="line">from concurrent.futures import ThreadPoolExecutor</span><br><span class="line">import grpc</span><br><span class="line">import time</span><br><span class="line">import hashlib</span><br><span class="line">from demo.generate_src import digestor_pb2</span><br><span class="line">from demo.generate_src import digestor_pb2_grpc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class DigestorServicer(digestor_pb2_grpc.DigestorServicer):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    gRPC server for Digestor Service</span><br><span class="line">    digestor_pb2_grpc.DigestorServicer 类 根据 `digestor.proto` 文件声明的 `service Digestor`生成</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    def __init__(self, *args, **kwargs):</span><br><span class="line">        self.server_port = 5001</span><br><span class="line"></span><br><span class="line">    def GetDigestor(self, request, context):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        重写digestor_pb2_grpc.DigestorServicer 方法 GetDigestor</span><br><span class="line">        :param request: 接收 请求参数</span><br><span class="line">        :param context: 上下文</span><br><span class="line">        :return: DigestedMessage类型</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        tobeDigested = request.ToDigest</span><br><span class="line">        hasher = hashlib.sha256()</span><br><span class="line">        hasher.update(tobeDigested.encode())</span><br><span class="line">        digested = hasher.hexdigest()</span><br><span class="line">        print digested</span><br><span class="line">        # result 即为 digestor.proto 文件声明的DigestedMessage 类型</span><br><span class="line">        # 保证变量名称(Digested, WasDigest)与 DigestedMessage 声明的一致</span><br><span class="line">        result = &#123;&apos;Digested&apos;: digested, &apos;WasDigest&apos;: True&#125;</span><br><span class="line">        return digestor_pb2.DigestedMessage(**result)</span><br><span class="line"></span><br><span class="line">    def start_server(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        start gRPC server and receive the clients witch will connect to it</span><br><span class="line">        :return:</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        # 实例化 server 对象，接收指定大小的线程池</span><br><span class="line">        digestor_server = grpc.server(ThreadPoolExecutor(max_workers=5))</span><br><span class="line"></span><br><span class="line">        # 将服务添加到 server 对象中</span><br><span class="line">        digestor_pb2_grpc.add_DigestorServicer_to_server(DigestorServicer(), digestor_server)</span><br><span class="line"></span><br><span class="line">        # 绑定 server 到 端口号</span><br><span class="line">        digestor_server.add_insecure_port(&apos;[::]:&#123;port&#125;&apos;.format(port=self.server_port))</span><br><span class="line">        # start the server</span><br><span class="line">        digestor_server.start()</span><br><span class="line">        print (&apos;Digestor Server running ...&apos;)</span><br><span class="line">        try:</span><br><span class="line">            # need an infinite loop since the above</span><br><span class="line">            # code is non blocking, and if I don&apos;t do this</span><br><span class="line">            # the program will exit</span><br><span class="line">            while True:</span><br><span class="line">                time.sleep(60 * 60 * 60)</span><br><span class="line">        except KeyboardInterrupt:</span><br><span class="line">            digestor_server.stop(0)</span><br><span class="line">            print(&apos;Digestor Server Stopped ...&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    curr_server = DigestorServicer()</span><br><span class="line">    curr_server.start_server()</span><br></pre></td></tr></table></figure>
+<p>执行 <code>digester_server.py</code> 脚本，启动 gRPC 服务</p>
+<h3 id="编写-gRPC-客户端代码"><a href="#编写-gRPC-客户端代码" class="headerlink" title="编写 gRPC 客户端代码"></a>编写 gRPC 客户端代码</h3><p>在 demo/client中编写客户端脚本 <code>digestor_client.py</code> ，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line"># @Author: zsd</span><br><span class="line"># @Email: zsd498537806@gmail.com</span><br><span class="line"># @Date: 2019-03-27 15-17</span><br><span class="line"># @FUNCTION: </span><br><span class="line">import grpc</span><br><span class="line">from demo.generate_src import digestor_pb2_grpc</span><br><span class="line">from demo.generate_src import digestor_pb2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class DigestorClient(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.server_host = &apos;localhost&apos;</span><br><span class="line">        self.server_port = 5001</span><br><span class="line"></span><br><span class="line">        # 初始化一个 channel 用于建立client 和 server 之间的通信管道</span><br><span class="line">        self.channel = grpc.insecure_channel(</span><br><span class="line">            &apos;&#123;ip&#125;:&#123;port&#125;&apos;.format(ip=self.server_host, port=self.server_port))</span><br><span class="line"></span><br><span class="line">        # 绑定 client 到 gRPC server 的 channel</span><br><span class="line">        self.stub = digestor_pb2_grpc.DigestorStub(self.channel)</span><br><span class="line"></span><br><span class="line">    def get_digest(self, message):</span><br><span class="line">        # 实例化 DigestMessage 对象</span><br><span class="line">        to_digest_message = digestor_pb2.DigestMessage(ToDigest=message)</span><br><span class="line">        return self.stub.GetDigestor(to_digest_message)</span><br></pre></td></tr></table></figure>
+<p>该客户端在初始化函数中，建立了从 客户端 到 服务端 的连接， 直接执行 <code>get_digest</code> 方法即可调用 <code>gRPC</code> 服务端的方法 <code>GetDigestor</code>。</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在不同的 Terminal 分别执行执行 <code>digestor_server</code> 和 <code>digestor_client</code></p>
+<p>server 端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from demo.server import digestor_server</span><br><span class="line">&gt;&gt;&gt; Digestor_server = digestor_server.DigestorServicer()</span><br><span class="line">&gt;&gt;&gt; digestor_server = digestor_server.DigestorServicer()</span><br><span class="line">&gt;&gt;&gt; digestor_server.start_server()</span><br><span class="line">Digestor Server running ...</span><br><span class="line">532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25</span><br></pre></td></tr></table></figure></p>
+<p>client端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br><span class="line">&gt;&gt;&gt; from demo.client.digestor_client import DigestorClient</span><br><span class="line">&gt;&gt;&gt; digestor_client = DigestorClient()</span><br><span class="line">&gt;&gt;&gt; digestor_client.get_digest(&apos;Test&apos;)</span><br><span class="line">Digested: &quot;532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25&quot;</span><br><span class="line">WasDigest: true</span><br></pre></td></tr></table></figure>
+<p>可以看到，服务端接收客户端的请求数据，并将处理结果返回给客户端。对于客户端来说，仅仅调用本地的 <code>get_digest</code> 方法。</p>
+<p>本文涉及的源码请访问 <a href="https://github.com/DemonZSD/grpc_tutorial" target="_blank" rel="noopener">github-grpc_tutorial</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>使用 <code>Simple gRPC</code> 有以下不足：</p>
+<ul>
+<li>在数据包过大时，会对 client 和 server 端造成压力。</li>
+<li>服务端接收数据包时，在数据包完全接收完成后，才能响应给客户端，并无法一边接收客户端的请求数据，一边响应给客户端。</li>
+</ul>
+<p>后续章节将继续介绍 <a href="https://segmentfault.com/a/1190000016503114" target="_blank" rel="noopener">基于 Stream 的 gRPC</a>。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://technokeeda.com/programming/grpc-python-tutorial/" target="_blank" rel="noopener">Writing your first gRPC service in Python</a></li>
+<li><a href="https://grpc.io/docs/guides/" target="_blank" rel="noopener">官方文档</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div style="border-left: 0px solid #ff8d00; margin-bottom: 30px;">
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    weshzhu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://weshzhu.com/first-grpc-example/" title="gRPC教程—— gRPC 简单实现Server和Client">http://weshzhu.com/first-grpc-example/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+    
+      <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8744947453786229" data-ad-slot="1288395041"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+      </div>
+      
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gRPC/" rel="tag"># gRPC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/fabric2-tutorial/" rel="next" title="Fabric2.4 Tutorial">
+                <i class="fa fa-chevron-left"></i> Fabric2.4 Tutorial
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/k8s-issue-kubeapi-too-many-open-files/" rel="prev" title="解决 kube-apiserver 报  too many open files 错误信息">
+                解决 kube-apiserver 报  too many open files 错误信息 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="weshzhu">
+          <p class="site-author-name" itemprop="name">weshzhu</p>
+           
+              <p class="site-description motion-element" itemprop="description">持之以恒，一日不作，一日不食~~ </p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://me.csdn.net/zsd498537806" target="_blank" title="csdn">
+                  
+                    <i class="fa fa-fw fa-cuttlefish"></i>
+                  
+                    
+                      csdn
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://github.com" title="Github" target="_blank">Github</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://blog.csdn.net/zsd498537806" title="CSDN" target="_blank">CSDN</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.baidu.com" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.google.com" title="Google" target="_blank">Google</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装grocio工具"><span class="nav-number">2.</span> <span class="nav-text">安装grocio工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-Proto-文件"><span class="nav-number">3.</span> <span class="nav-text">编写 Proto 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-Stubs"><span class="nav-number">4.</span> <span class="nav-text">生成 Stubs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-gRPC-服务端代码"><span class="nav-number">5.</span> <span class="nav-text">编写 gRPC 服务端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写-gRPC-客户端代码"><span class="nav-number">6.</span> <span class="nav-text">编写 gRPC 客户端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">7.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">weshzhu</span>
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共22.4k字</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("nSSt5cKO2R1XjIwU9KlbUtOc-gzGzoHsz", "lc8U1dg1a1oYdIFq4YU26gmH");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
