@@ -11,7 +11,14 @@ categories:
 ---
 
 
+### 解决 kube-apiserver 报  too many open files 错误信息
+
+
+### 前言
+
 在k8s集群中，在获取资源时，会遇到 `kubectl ` 命令阻塞，经查看发现是 kube-apiserver 报错，搜索解决方案，发现 github 上已经有人遇到过该问题，并提交了 [`Issues#703`](https://github.com/juju-solutions/bundle-canonical-kubernetes/issues/) 和 [`Issues#67004`](https://github.com/kubernetes/kubernetes/issues/67004)
+
+### 问题描述
 
 **错误信息如下：**
 
@@ -44,6 +51,10 @@ Mar 28 16:52:47 aios-4 kube-apiserver[75
 - Kernel (e.g. uname -a): Linux  vultr.guest 3.10.0-957.1.3.el7.x86_64
 
 
+### 解决方法
+
+#### 修改系统属性
+
 Linux操作系统中，有一个控制系统 `open files` 的参数，可以通过 `ulimit -a` 进行查看：
 
 ``` shell
@@ -73,6 +84,8 @@ file locks                      (-x) unlimited
 ```
 
 重启机器，生效。
+
+#### 修改守护进程 kube-apiserver
 
 
 停止 `kube-apiserver`
@@ -161,6 +174,3 @@ Max nice priority         0                    0
 Max realtime priority     0                    0                    
 Max realtime timeout      unlimited            unlimited            us  
 ```
-
-
-
