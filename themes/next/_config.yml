@@ -6,7 +6,7 @@
 favicon: /images/favicon.ico
 language: "zh-Hans"
 # Set default keywords (Use a comma to separate)
-keywords: "Hexo, NexT"
+keywords: "weshzhu, 微什猪, weshzhu blogs, 微什猪的博客, 微什猪的分享, docker, 运维, kubernetes, gRPC, gRPC简介"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
