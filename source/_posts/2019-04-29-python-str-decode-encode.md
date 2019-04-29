@@ -1,8 +1,7 @@
 ---
-title: python_str_decode_encode
-keywords: 'python str, python string, string encode, string decode, unicode, unicode str,weshzhu, weshzhu blogs'
+title: python str 和 unicode 区别
+keywords: 'python str 和 unicode 区别, python str, python string, string encode, string decode, unicode, unicode str,weshzhu, weshzhu blogs'
 date: 2019-04-29 08:47:14
-description: 'python str vs unicode '
 tags:
   python
 categories:
