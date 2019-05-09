@@ -89,7 +89,6 @@ $ import os
 $ os.sys.getdefaultencoding()
 'ascii'
 ```
-这就导致了在python2.x中，
 
 在 Python3.x 中，默认的编码格式均为 `utf-8`。
 ```

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://weshzhu.com/callable-future-and-futruetask/</loc>
+    <lastmod>2019-05-09</lastmod>
+  </url>  <url>
+    <loc>http://weshzhu.com/python-init-new-call/</loc>
+    <lastmod>2019-04-29</lastmod>
+  </url>  <url>
     <loc>http://weshzhu.com/python-str-decode-encode/</loc>
+    <lastmod>2019-04-29</lastmod>
+  </url>  <url>
+    <loc>http://weshzhu.com/python-mulit-thread/</loc>
     <lastmod>2019-04-29</lastmod>
   </url>  <url>
     <loc>http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/</loc>
@@ -38,9 +47,6 @@
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
     <loc>http://weshzhu.com/pull-docker-images-failed/</loc>
-    <lastmod>2019-04-02</lastmod>
-  </url>  <url>
-    <loc>http://weshzhu.com/python-mulit-thread/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
     <loc>http://weshzhu.com/algorithm-two-order-list-merge/</loc>

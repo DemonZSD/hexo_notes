@@ -2,8 +2,10 @@
 title: python 多线程锁机制介绍
 date: 2019-03-21 15:56:07
 tags:
-  - Python
+  - python
   - thread
+categories:
+  - python
 ---
 
 ### Lock
