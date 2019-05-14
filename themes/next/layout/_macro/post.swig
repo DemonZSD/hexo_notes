@@ -331,11 +331,13 @@
         {% include 'post-copyright.swig' with { post: post } %}
       </div>
     {% endif %}
-    {% if theme.ad_display.enable %}
-      <div>
-        {% include 'google_adsense.swig' %}
-      </div>
+    {% if not is_index %}
+      {% if theme.ad_display.enable %}
+        <div>
+          {% include 'google_adsense.swig' %}
+        </div>
       {% endif %}
+    {% endif %}
     <footer class="post-footer">
       {% if post.tags and post.tags.length and not is_index %}
         <div class="post-tags">
