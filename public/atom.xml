@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://weshzhu.com/"/>
-  <updated>2019-05-26T07:01:26.610Z</updated>
+  <updated>2019-05-30T06:33:26.145Z</updated>
   <id>http://weshzhu.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>java 内存模型</title>
+    <link href="http://weshzhu.com/jvm-memory-model/"/>
+    <id>http://weshzhu.com/jvm-memory-model/</id>
+    <published>2019-05-30T06:17:16.000Z</published>
+    <updated>2019-05-30T06:33:26.145Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>深入理解java 内存模型，对于开发高效率代码，分析解决潜在bug有莫大的帮助。下面我们将对 java 内存概念模型做一个详细的介绍，注意该模型只是概念模型，具体的实现各个虚拟机厂商有一定的差异性，但都遵循《java虚拟机规范》中的规定。</p><h2 id="java-内存模型概览"><a href="#java-内存模型概览" class="headerlink" title="java 内存模型概览"></a>java 内存模型概览</h2><p><img src="/images/331425-20160623115846235-947282498.png" alt></p><p>对于上图，总体介绍一下各个内存的功能以及对于程序来说在运行时参与的角色。</p><ul><li>堆：所有线程所共享的内存区域，所有的对象实例，数组都在堆上分配。</li><li>栈：为线程所私有的存储区域，分为<strong>jvm栈</strong>和<strong>本地方法栈</strong>（Native Method Stack）。<strong>jvm栈</strong>用于存储线程所使用的局部变量表，操作数栈，方法出口等；<strong>本地方法栈</strong>用于存储虚拟机使用的Native方法服务。</li><li>方法区：所有线程共享（但线程安全），用于存储已被虚拟机加载的类信息，常量，静态变量等。方法区也包含运行时常量池。</li><li>程序计数器：标记字节码指令执行顺序。</li></ul><h2 id="堆-（Heap）"><a href="#堆-（Heap）" class="headerlink" title="堆 （Heap）"></a>堆 （Heap）</h2><p>java 堆，是被所有线程共享的存储区域，是jvm内存中最大的一块。所有的对象实例和数组均存储在java 堆中。而指向对象实例的引用则存储在栈中。当然，随着JIT编译器的发展，这一现象也不是“绝对”的。java堆是垃圾回收器（GC）管理的主要区域。从内存回收的角度看，目前的垃圾回收算法采用的是<strong>分代收集算法</strong> 。因此，将java堆分成：新生代，老年代和永久代。</p><ul><li>新生代：又分为：<code>Eden Space</code> , <code>From Space</code> 和 <code>ToSpace</code>。新创建的对象，存储在新生代<code>Eden Space</code>和 其中一个 <code>Survivor</code> 区域（有可能是 <code>From Space</code> 也有可能是 <code>ToSpace</code> ）。在程序中大部分的对象在快速使用后，指向它的引用消失，那么对象变成不可达的对象，这部分对象很快就会被GC回收。而存活的时间比较长的对象，则通过复制的方式转移到另外一个 <code>Survivor</code>区域。经过数次的GC后，还有一部分”活着”的对象，则复制到老生代区域。<br><img src="/images/20190530141333.png" alt></li></ul><ul><li>老年代：存活了一段时间的对象。这些对象早早就被创建了，而且一直活了下来。我们把这些 存活时间较长 的对象放在一起，它们的特点是 存活对象多，垃圾少 。称为这片区域为： 老年代；</li><li><p>永久代：永久存在的对象。比如一些静态文件，这些对象的特点是不需要垃圾回收，永远存活。形象点描述这块区域为：永久代 。（不过在 Java 8 里已经把 永久代 删除了，把这块内存空间给了 元空间。）</p></li><li><p>抛出异常：</p><p><code>OutOfMemoryError</code>， 如果在堆中没有内存完成实例对象的分配，并且堆也无法再扩展（通过-Xmx和-Xms扩展）时，将会抛出OutOfMemoryError异常。</p></li></ul><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><h3 id="jvm栈"><a href="#jvm栈" class="headerlink" title="jvm栈"></a>jvm栈</h3><p><img src="/images/20190528182223.png" alt></p><p>虚拟机栈（Java Virtual Machine Stacks），是线程私有的存储区域，生命周期同线程。如上图的线程1 和 线程2 。下面将详细介绍一下虚拟机栈。</p><p>假如上图线程1，执行方法 A,B和C，方法调用情况： A -&gt; B -&gt; C。每个方法被执行的时候，都会同时创建相应的栈帧，然后压入栈。然后执行时按后进先出的方式出栈调度。栈帧的作用就是存储方法所需要的一些资源：方法内部的局部变量，操作数栈（通过栈存储指令需要操作的数据），方法执行完后返回的地址。</p><ul><li><p>抛出异常：</p><p><code>StackOverflowError</code>:如果线程请求的栈深度大于虚拟机所允许的深度，将抛出<code>StackOverflowError</code>异常。</p><p><code>OutOfMemoryError</code>: 如果虚拟机栈可以动态扩展（当前大部分的Java虚拟机都可动态扩展，只不过Java虚拟机规范中也允许固定长度的虚拟机栈），当扩展时无法申请到足够的内存时会抛出<code>OutOfMemoryError</code>异常。</p></li></ul><h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>JVM栈是为 java方法执行服务的，而本地方法(Native Method Stacks)栈是为 jvm中内置的 <strong>本地方法</strong> 执行服务的。在我们看JDK源码时，经常会遇到类似下方的native方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">arraycopy</span><span class="params">(Object src,  <span class="keyword">int</span>  srcPos,</span></span></span><br><span class="line"><span class="function"><span class="params">                                        Object dest, <span class="keyword">int</span> destPos,</span></span></span><br><span class="line"><span class="function"><span class="params">                                        <span class="keyword">int</span> length)</span></span>;</span><br></pre></td></tr></table></figure></p><p>本地方法在执行时是在本地方法栈中执行的。</p><h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区（Method Area），与java堆一样，也是各个线程共享的存储区域。但是对于多线程来说，该区域是线程安全的。该内存主要是存储：类信息（类全路径名，类访问修饰符等），类类型，常量池等。</p><h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>运行时常量池是方法区的一部分，Class文件除了有类，接口的描述信息外，还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。当然存放在常量池中的内容也不一定在编译器产生，运行期间也可能将新的常量放入池中。常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。比如字符串常亮，在程序编译阶段就已经把所有的字符串常量存放到常量池中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String s1 = new String(&apos;12345&apos;)</span><br></pre></td></tr></table></figure><p>对于上面的代码，会有两个字符串被创建，一个是 <code>new String(&#39;12345&#39;)</code>，该字符串存放在 堆中，作为一个字符串对象。另一个是<code>&#39;12345&#39;</code> ，存放在常量池中。如果再新建一个对象<code>String s2 = new String(&#39;12345&#39;)</code> ，那么只创建一个 <code>new String(&#39;12345&#39;)</code> 存放在堆中。因字符串常量池中已经存在了 <code>12345</code> 那么，不会再去创建。</p><h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器，在jvm内存中，只占用很小一部分内存。程序经过编译成字节码后，存储到class文件。当一个线程执行时，加载程序的字节码。而程序计数器则是用来记录字节码行号的指示器。字节码解释器的工作 就是通过改变这个计数器的值来选择下一条执行的字节码指令。在多线程中，CPU轮流执行线程，为保证各个线程切换后恢复到上次的执行位置，则每个线程都需要一个独立的程序计数器。这样才能保证程序之间的协调运作。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;深入理解java 内存模型，对于开发高效率代码，分析解决潜在bug有莫大的帮助。下面我们将对 java 内存概念模型做一个详细的介绍，注意该
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://weshzhu.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://weshzhu.com/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>java反射 - getDeclaredConstructor()</title>
@@ -516,32 +541,6 @@
       
       
         &lt;h1 id=&quot;精通Oracle-SQL（第二版）读书笔记&quot;&gt;&lt;a href=&quot;#精通Oracle-SQL（第二版）读书笔记&quot; class=&quot;headerlink&quot; title=&quot;精通Oracle SQL（第二版）读书笔记&quot;&gt;&lt;/a&gt;精通Oracle SQL（第二版）读书笔记&lt;/
-      
-    
-    </summary>
-    
-      <category term="Oracle" scheme="http://weshzhu.com/categories/Oracle/"/>
-    
-    
-      <category term="Oracle" scheme="http://weshzhu.com/tags/Oracle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>精通Oracle SQL（第二版）读书笔记   -  第一章 SQL核心</title>
-    <link href="http://weshzhu.com/oracle-sql-second-version-note/"/>
-    <id>http://weshzhu.com/oracle-sql-second-version-note/</id>
-    <published>2016-12-05T13:52:54.000Z</published>
-    <updated>2019-04-02T02:15:14.576Z</updated>
-    
-    <content type="html"><![CDATA[<p>racle SQL（第二版）读书笔记</p><h2 id="第一章-SQL核心"><a href="#第一章-SQL核心" class="headerlink" title="第一章 SQL核心"></a>第一章 SQL核心</h2><h3 id="数据库接口"><a href="#数据库接口" class="headerlink" title="数据库接口"></a>数据库接口</h3><blockquote><p>1.数据库接口:<br>Oracle数据库的本地接口界面是<strong>OCI</strong>,<strong>OCI</strong> 将由 <strong>Oracle内核</strong>传递而来的查询语句发送到数据库。其他语言对应的接口：<em>Oracle JDBC-OCI、ODD.Net、Oracle 预编译器、Oracle ODBC以及Oracle C++ 调用接口OCCI驱动</em>。</p></blockquote><h3 id="SQL-Plus"><a href="#SQL-Plus" class="headerlink" title="SQL*Plus"></a>SQL*Plus</h3><blockquote><p>配置：$ORACLE_HOME/network/admin/tnsnames.ora 文件中登记想要连接的数据库。</p></blockquote><h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><blockquote><ul><li>sqlplus /nolog: 启动sqlplus但不显示登录到数据库后的提示。</li></ul></blockquote><blockquote><ul><li>help index： 显示可用的命令</li></ul></blockquote><blockquote><ul><li>help set： 用来定制工作环境最基本的命令，但退出sqlplus或者关闭时，这些设置命令不会被保存。可在login.sql文件中修改sqlplus环境设置。</li></ul></blockquote><h3 id="在login-sql文件中修改配置"><a href="#在login-sql文件中修改配置" class="headerlink" title="在login.sql文件中修改配置"></a>在login.sql文件中修改配置</h3><blockquote><p>在sql* plus启动时默认读取的两个文件，1.<strong>$ORACLE_HOME/sqlplus/admin</strong> 目录下的 <strong>glogin.sql</strong>和<strong>login.sql</strong> 文件。其中，<strong>login.sql</strong>中所有命令的优先级比glogin.sql高。Oracle log之后，启动sqlplus和在sqlplus中运行connect都会同时读取这两个文件。</p></blockquote><h3 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h3><blockquote><p>在sql<em> plus中执行的是两种命令：<strong>sql语句</strong> 和 **SQL </em> Plus命令**</p></blockquote><blockquote><p>SQL语句用<strong>；</strong> 和 <strong>/</strong> 结束输入</p></blockquote><ul><li><ol><li>可在命令后和另起一行使用；</li></ol></li><li><ol start="2"><li>/只能在下行中被识别。<blockquote><p>sqlplus缓冲区<br>sqlplus执行 <em>.sql 文件方式：1.直接输入 </em>.sql,2.输入@或者START *，可以省略后缀。</p></blockquote></li></ol></li></ul><h3 id="五大核心SQL语句-SELECT-INSERT-UPDATE-DELETE-MERGE"><a href="#五大核心SQL语句-SELECT-INSERT-UPDATE-DELETE-MERGE" class="headerlink" title="五大核心SQL语句(SELECT, INSERT, UPDATE, DELETE, MERGE)"></a>五大核心SQL语句(SELECT, INSERT, UPDATE, DELETE, MERGE)</h3><h4 id="1-SELECT-语句"><a href="#1-SELECT-语句" class="headerlink" title="1. SELECT 语句"></a>1. SELECT 语句</h4><h5 id="Oracle基于查询成本的优化器-Cost-Based-Optimizer-CBO-用来产生实际的执行计划。"><a href="#Oracle基于查询成本的优化器-Cost-Based-Optimizer-CBO-用来产生实际的执行计划。" class="headerlink" title="Oracle基于查询成本的优化器(Cost-Based Optimizer,CBO)用来产生实际的执行计划。"></a>Oracle基于查询成本的优化器(Cost-Based Optimizer,CBO)用来产生实际的执行计划。</h5><h5 id="select语句"><a href="#select语句" class="headerlink" title="- select语句"></a>- select语句</h5><blockquote><p>处理过程中首先处理的是<strong>From</strong>子句，多个<strong>From</strong>则每个步骤想象成一个临时数据集，每经过一个<strong>FROM</strong>，则进行一步筛选，得最终结果数据集。</p></blockquote><h5 id="From子句"><a href="#From子句" class="headerlink" title="- From子句"></a>- From子句</h5><blockquote><p>子句可以包含表、视图、物化视图、分区或者子分区。处理联结时：交叉联结（笛卡尔乘积）、内联结、外联结。</p></blockquote><h5 id="HAVING子句"><a href="#HAVING子句" class="headerlink" title="- HAVING子句"></a>- HAVING子句</h5><blockquote><p>将分组汇总后的查询结果限定为只满足该条件的数据行。GROUP BY 和 HAVING 子句的位置可以互换，但是一般情况下GROUP BY 放在前面。</p></blockquote><h5 id="ORDER-BY子句"><a href="#ORDER-BY子句" class="headerlink" title="- ORDER BY子句"></a>- ORDER BY子句</h5><blockquote><p>Oracle必须在其他所有子句都执行完毕之后按指定的列进行排序结果集。</p></blockquote><h4 id="2-INSERT-语句"><a href="#2-INSERT-语句" class="headerlink" title="2. INSERT 语句"></a>2. INSERT 语句</h4><h5 id="Insert语句可以向表、分区或者视图中添加行，可单表或者多表插入。"><a href="#Insert语句可以向表、分区或者视图中添加行，可单表或者多表插入。" class="headerlink" title="Insert语句可以向表、分区或者视图中添加行，可单表或者多表插入。"></a>Insert语句可以向表、分区或者视图中添加行，可单表或者多表插入。</h5><pre><code>INSERT ALL WHEN 条件1 THEN INTO table1           WHEN 条件2 THEN INTO table2           WHEN 条件3 THEN INTO table3            ...           SELECT ** FROM table4;</code></pre><blockquote><p>当指定<strong>ALL</strong>时，这个语句就会执行无条件的多表插入，可以用<strong>FIRST</strong>替换，此时指定按照<strong>WHEN</strong>子句在语句中的顺序进行判断    。</p></blockquote><h4 id="3-UPDATE-语句"><a href="#3-UPDATE-语句" class="headerlink" title="3. UPDATE 语句"></a>3. UPDATE 语句</h4><h5 id="该语法由-UPDATE、SET、WHERE-组成"><a href="#该语法由-UPDATE、SET、WHERE-组成" class="headerlink" title="该语法由 UPDATE、SET、WHERE 组成"></a>该语法由 <strong>UPDATE、SET、WHERE</strong> 组成</h5><h4 id="4-DELETE-语句"><a href="#4-DELETE-语句" class="headerlink" title="4. DELETE 语句"></a>4. DELETE 语句</h4><h5 id="由-DELETE、WHERE、FROM-组成"><a href="#由-DELETE、WHERE、FROM-组成" class="headerlink" title="由 DELETE、WHERE、FROM 组成"></a>由 DELETE、WHERE、FROM 组成</h5><h4 id="5-MERGE-语句"><a href="#5-MERGE-语句" class="headerlink" title="5. MERGE 语句"></a>5. MERGE 语句</h4><h5 id="MERGE-语句可以按条件获取要更新或者插入到表中的数据行，然后从-1-个或者多个源头对表进行更新或插入行。"><a href="#MERGE-语句可以按条件获取要更新或者插入到表中的数据行，然后从-1-个或者多个源头对表进行更新或插入行。" class="headerlink" title="MERGE 语句可以按条件获取要更新或者插入到表中的数据行，然后从 1 个或者多个源头对表进行更新或插入行。"></a>MERGE 语句可以按条件获取要更新或者插入到表中的数据行，然后从 1 个或者多个源头对表进行更新或插入行。</h5>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;racle SQL（第二版）读书笔记&lt;/p&gt;
-&lt;h2 id=&quot;第一章-SQL核心&quot;&gt;&lt;a href=&quot;#第一章-SQL核心&quot; class=&quot;headerlink&quot; title=&quot;第一章 SQL核心&quot;&gt;&lt;/a&gt;第一章 SQL核心&lt;/h2&gt;&lt;h3 id=&quot;数据库接口&quot;&gt;&lt;a h
       
     
     </summary>

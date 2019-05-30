@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://weshzhu.com/jvm-memory-model/</loc>
+    
+    <lastmod>2019-05-30T06:33:26.145Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://weshzhu.com/algorithm-two-order-list-merge/</loc>
     
     <lastmod>2019-05-26T07:35:52.666Z</lastmod>
