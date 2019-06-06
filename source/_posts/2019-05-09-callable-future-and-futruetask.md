@@ -28,7 +28,7 @@ categories:
 
 `java.lang.Runnable` 是一个接口，在该接口中，声明了一个 `call()` 方法。
 
-```
+```java
 @FunctionalInterface
 public interface Runnable {
     /**
@@ -52,7 +52,7 @@ public interface Runnable {
 
 `Callable` 存在于 `java.util.concurrent.Callable` 。它是一个接口，在它里面也只声明了一个 call() 方法。
 
-```
+```java
 @FunctionalInterface
 public interface Callable<V> {
     /**
@@ -67,7 +67,7 @@ public interface Callable<V> {
 
 可以看到，它是一个 泛型接口。call 返回的类型， 就是传递进来的泛型的类型。
 那么怎么使用`Callable`呢？一般情况下是配合`ExecutorService`来使用的，在`ExecutorService`接口中声明了若干个`submit`方法的重载版本：
-```
+```java
 <T> Future<T> submit(Callable<T> task);
 <T> Future<T> submit(Runnable task, T result);
 Future<?> submit(Runnable task);
@@ -82,7 +82,7 @@ Future<?> submit(Runnable task);
 
 `Future` 类位于 `java.util.concurrent` 包下，它是一个接口：
 
-```
+```java
 public interface Future<V> {
 
     boolean cancel(boolean mayInterruptIfRunning);
@@ -118,13 +118,13 @@ public interface Future<V> {
 ## `FutureTask`
 
 我们先来看一下`FutureTask`的实现：
-```
+```java
 public class FutureTask<V> implements RunnableFuture<V>
 ```
 
 可以看到 `FutureTask` 实现了 `RunnableFuture`，我们再看一下 `RunnableFuture` 的实现：
 
-```
+```java
 public interface RunnableFuture<V> extends Runnable, Future<V> {
     /**
      * Sets this Future to the result of its computation
@@ -138,7 +138,7 @@ public interface RunnableFuture<V> extends Runnable, Future<V> {
 
 FutureTask 提供了两个构造函数：
 
-```
+```java
 public FutureTask(Callable<V> callable) {
     if (callable == null)
         throw new NullPointerException();
@@ -156,7 +156,7 @@ public FutureTask(Runnable runnable, V result) {
 
 1. 使用 Callable 和 Future 获取执行结果
    
-   ```
+   ```java
    class Task implements Callable<Integer>{
         @Override
         public Integer call() throws Exception {
@@ -201,7 +201,7 @@ public FutureTask(Runnable runnable, V result) {
 
 2. 使用 Callable 和 FutureTask 获取执行结果
    
-   ```
+   ```java
    // 任务必须实现 Callable 接口，并重写 call() 方法
    class Task implements Callable<Integer>{
         @Override

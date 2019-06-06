@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://weshzhu.com/callable-future-and-futruetask/</loc>
+    
+    <lastmod>2019-06-06T09:23:42.825Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://weshzhu.com/jvm-memory-model/</loc>
     
     <lastmod>2019-05-30T06:33:26.145Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://weshzhu.com/java-reflection-getDeclearedConstructor/</loc>
     
     <lastmod>2019-05-26T07:01:26.610Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://weshzhu.com/callable-future-and-futruetask/</loc>
-    
-    <lastmod>2019-05-09T12:00:41.885Z</lastmod>
     
   </url>
   
@@ -177,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://weshzhu.com/docker-network-overlay/</loc>
+    <loc>http://weshzhu.com/docker-storage/</loc>
     
     <lastmod>2019-04-02T02:15:14.574Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://weshzhu.com/docker-storage/</loc>
+    <loc>http://weshzhu.com/docker-network-overlay/</loc>
     
     <lastmod>2019-04-02T02:15:14.574Z</lastmod>
     
