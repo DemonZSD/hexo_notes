@@ -43,13 +43,13 @@
     <loc>http://weshzhu.com/install-docker-yum/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/private-registry-docker/</loc>
-    <lastmod>2019-04-02</lastmod>
-  </url>  <url>
     <loc>http://weshzhu.com/oracle-sql-second-version-note/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
     <loc>http://weshzhu.com/oracle-sql-seconds-notes-sec-2-sql-exec/</loc>
+    <lastmod>2019-04-02</lastmod>
+  </url>  <url>
+    <loc>http://weshzhu.com/private-registry-docker/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
     <loc>http://weshzhu.com/docker-network-bridge/</loc>
