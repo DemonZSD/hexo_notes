@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://weshzhu.com/go-str-formater-tutorial/</loc>
+    <loc>https://github.com/DemonZSD/go-str-formater-tutorial/</loc>
     <lastmod>2019-08-24</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/calc-minimal-array/</loc>
+    <loc>https://github.com/DemonZSD/calc-minimal-array/</loc>
     <lastmod>2019-07-03</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/callable-future-and-futruetask/</loc>
+    <loc>https://github.com/DemonZSD/callable-future-and-futruetask/</loc>
     <lastmod>2019-06-06</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/jvm-memory-model/</loc>
+    <loc>https://github.com/DemonZSD/jvm-memory-model/</loc>
     <lastmod>2019-05-30</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/algorithm-two-order-list-merge/</loc>
+    <loc>https://github.com/DemonZSD/algorithm-two-order-list-merge/</loc>
     <lastmod>2019-05-26</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/java-reflection-getDeclearedConstructor/</loc>
+    <loc>https://github.com/DemonZSD/java-reflection-getDeclearedConstructor/</loc>
     <lastmod>2019-05-26</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/python-init-new-call/</loc>
+    <loc>https://github.com/DemonZSD/python-init-new-call/</loc>
     <lastmod>2019-04-29</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/python-str-decode-encode/</loc>
+    <loc>https://github.com/DemonZSD/python-str-decode-encode/</loc>
     <lastmod>2019-04-29</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/python-mulit-thread/</loc>
+    <loc>https://github.com/DemonZSD/python-mulit-thread/</loc>
     <lastmod>2019-04-29</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/</loc>
+    <loc>https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/first-grpc-example/</loc>
+    <loc>https://github.com/DemonZSD/first-grpc-example/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/fabric2-tutorial/</loc>
+    <loc>https://github.com/DemonZSD/fabric2-tutorial/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/grpc-introduction/</loc>
+    <loc>https://github.com/DemonZSD/grpc-introduction/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/install-docker-yum/</loc>
+    <loc>https://github.com/DemonZSD/install-docker-yum/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/oracle-sql-second-version-note/</loc>
+    <loc>https://github.com/DemonZSD/oracle-sql-second-version-note/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/oracle-sql-seconds-notes-sec-2-sql-exec/</loc>
+    <loc>https://github.com/DemonZSD/oracle-sql-seconds-notes-sec-2-sql-exec/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/private-registry-docker/</loc>
+    <loc>https://github.com/DemonZSD/private-registry-docker/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/docker-network-bridge/</loc>
+    <loc>https://github.com/DemonZSD/docker-network-bridge/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/nginx-ingress-controller-introduct/</loc>
+    <loc>https://github.com/DemonZSD/nginx-ingress-controller-introduct/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/jenkins-docker-command-not-found/</loc>
+    <loc>https://github.com/DemonZSD/jenkins-docker-command-not-found/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/pull-docker-images-failed/</loc>
+    <loc>https://github.com/DemonZSD/pull-docker-images-failed/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/docker-network-overlay/</loc>
+    <loc>https://github.com/DemonZSD/docker-network-overlay/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>  <url>
-    <loc>http://weshzhu.com/docker-storage/</loc>
+    <loc>https://github.com/DemonZSD/docker-storage/</loc>
     <lastmod>2019-04-02</lastmod>
   </url>
 </urlset>

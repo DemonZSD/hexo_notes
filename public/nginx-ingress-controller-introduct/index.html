@@ -107,19 +107,19 @@
 <meta name="keywords" content="kubernetes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NGINX Ingress Controller教程">
-<meta property="og:url" content="http://weshzhu.com/nginx-ingress-controller-introduct/index.html">
+<meta property="og:url" content="https://github.com/DemonZSD/nginx-ingress-controller-introduct/index.html">
 <meta property="og:site_name" content="weshzhu blogs">
 <meta property="og:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ingress">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://weshzhu.com/images/metallb.jpg">
-<meta property="og:image" content="http://weshzhu.com/images/nodeport.jpg">
-<meta property="og:image" content="http://weshzhu.com/images/hostnetwork.jpg">
-<meta property="og:image" content="http://weshzhu.com/images/user_edge.jpg">
+<meta property="og:image" content="https://github.com/images/metallb.jpg">
+<meta property="og:image" content="https://github.com/images/nodeport.jpg">
+<meta property="og:image" content="https://github.com/images/hostnetwork.jpg">
+<meta property="og:image" content="https://github.com/images/user_edge.jpg">
 <meta property="og:updated_time" content="2019-04-02T02:15:14.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NGINX Ingress Controller教程">
 <meta name="twitter:description" content="NGINX Ingress Controller[TOC] Bare-metal considerations MetalLBMetalLB提供了一个不仅仅只有云服务商才可提供的在kubernetes集群上的网络负载均衡实现。有效地允许在任何集群中使用 LoadBalancer 服务。本教程介绍使用 Layer 2 configuration mode MetalLB和NGINX Ingress">
-<meta name="twitter:image" content="http://weshzhu.com/images/metallb.jpg">
+<meta name="twitter:image" content="https://github.com/images/metallb.jpg">
 
 
 
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://weshzhu.com/nginx-ingress-controller-introduct/">
+  <link rel="canonical" href="https://github.com/DemonZSD/nginx-ingress-controller-introduct/">
 
 
 
@@ -307,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/nginx-ingress-controller-introduct/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/DemonZSD/nginx-ingress-controller-introduct/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="weshzhu">
@@ -468,7 +468,7 @@
 </ul>
 <p>客户端可通过<code>http://myapp.example.com:30100</code>与配置<code>host</code>:<code>myapp.example.com</code>的<code>Ingress</code>进行通信，<code>myapp.example.com</code> 子域解析为203.0.113.2地址。<br>这种方法还有一些应该注意的其他限制</p>
 <ul>
-<li><p><strong>Source IP address</strong><br>Services of type NodePort perform source address translation by default。这意味着：HTTP请求的<code>source IP</code>始终是从NGINX的角度接收请求的Kubernetes节点的IP地址。<br>建议通过设置<code>ingress-nginx Service</code>的<code>spec.externalTrafficPolicy</code>的属性域为<code>local</code>（<a href="https://github.com/kubernetes/ingress-nginx/blob/nginx-0.19.0/deploy/provider/aws/service-nlb.yaml#L12-L14" target="_blank" rel="noopener">例如</a>），来保留<code>source IP</code></p>
+<li><p><strong>Source IP address</strong><br>Services of type NodePort perform source address translation by default。这意味着：HTTP请求的<code>source IP</code>始终是从NGINX的角度接收请求的Kubernetes节点的IP地址。<br>建议通过设置<code>ingress-nginx Service</code>的<code>spec.externalTrafficPolicy</code>的属性域为<code>local</code>（<a href="https://github.com/kubernetes/ingress-nginx/blob/nginx-0.19.0/deploy/provider/aws/service-nlb.yaml#L12-L14">例如</a>），来保留<code>source IP</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">ingress-nginx</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">ingress-nginx</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># this setting is t make sure the source IP address is preserved.</span></span><br><span class="line"><span class="attr">  externalTrafficPolicy:</span> <span class="string">Local</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">LoadBalancer</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">  - name:</span> <span class="string">http</span></span><br><span class="line">	<span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">	<span class="attr">targetPort:</span> <span class="string">http</span></span><br><span class="line">  <span class="string">...</span></span><br></pre></td></tr></table></figure>
 <p>例如一个集群中有三个<code>Node</code>，(<code>external IP</code>只是一个举例, 在大部分 bare-metal环境中该值是<code>&lt;None&gt;</code>)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl describe node</span><br><span class="line">NAME     STATUS   ROLES    EXTERNAL-IP</span><br><span class="line">host-1   Ready    master   203.0.113.1</span><br><span class="line">host-2   Ready    node     203.0.113.2</span><br><span class="line">host-3   Ready    node     203.0.113.3</span><br></pre></td></tr></table></figure>
@@ -547,7 +547,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://weshzhu.com/nginx-ingress-controller-introduct/" title="NGINX Ingress Controller教程">http://weshzhu.com/nginx-ingress-controller-introduct/</a>
+    <a href="https://github.com/DemonZSD/nginx-ingress-controller-introduct/" title="NGINX Ingress Controller教程">https://github.com/DemonZSD/nginx-ingress-controller-introduct/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>

@@ -107,7 +107,7 @@
 <meta name="keywords" content="kubernetes,Issue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决 kube-apiserver 报  too many open files 错误信息">
-<meta property="og:url" content="http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/index.html">
+<meta property="og:url" content="https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/index.html">
 <meta property="og:site_name" content="weshzhu blogs">
 <meta property="og:description" content="解决 kube-apiserver 报  too many open files 错误信息前言在k8s集群中，在获取资源时，会遇到 kubectl 命令阻塞，经查看发现是 kube-apiserver 报错，搜索解决方案，发现 github 上已经有人遇到过该问题，并提交了 Issues#703 和 Issues#67004 问题描述错误信息如下： 123456789101112131415161">
 <meta property="og:locale" content="zh-Hans">
@@ -143,7 +143,7 @@
 
 
 
-  <link rel="canonical" href="http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/">
+  <link rel="canonical" href="https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/">
 
 
 
@@ -302,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="weshzhu">
@@ -446,7 +446,7 @@
       
 
       
-        <h3 id="解决-kube-apiserver-报-too-many-open-files-错误信息"><a href="#解决-kube-apiserver-报-too-many-open-files-错误信息" class="headerlink" title="解决 kube-apiserver 报  too many open files 错误信息"></a>解决 kube-apiserver 报  too many open files 错误信息</h3><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在k8s集群中，在获取资源时，会遇到 <code>kubectl</code> 命令阻塞，经查看发现是 kube-apiserver 报错，搜索解决方案，发现 github 上已经有人遇到过该问题，并提交了 <a href="https://github.com/juju-solutions/bundle-canonical-kubernetes/issues/" target="_blank" rel="noopener"><code>Issues#703</code></a> 和 <a href="https://github.com/kubernetes/kubernetes/issues/67004" target="_blank" rel="noopener"><code>Issues#67004</code></a></p>
+        <h3 id="解决-kube-apiserver-报-too-many-open-files-错误信息"><a href="#解决-kube-apiserver-报-too-many-open-files-错误信息" class="headerlink" title="解决 kube-apiserver 报  too many open files 错误信息"></a>解决 kube-apiserver 报  too many open files 错误信息</h3><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在k8s集群中，在获取资源时，会遇到 <code>kubectl</code> 命令阻塞，经查看发现是 kube-apiserver 报错，搜索解决方案，发现 github 上已经有人遇到过该问题，并提交了 <a href="https://github.com/juju-solutions/bundle-canonical-kubernetes/issues/"><code>Issues#703</code></a> 和 <a href="https://github.com/kubernetes/kubernetes/issues/67004"><code>Issues#67004</code></a></p>
 <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p><strong>错误信息如下：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl status kube-apiserver -l</span><br><span class="line">● kube-apiserver.service - Kubernetes API Server</span><br><span class="line">   Loaded: loaded (/etc/systemd/system/kube-apiserver.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Sat 2019-03-16 20:02:13 CST; 1 weeks 4 days ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"> Main PID: 75456 (kube-apiserver)</span><br><span class="line">    Tasks: 63</span><br><span class="line">   Memory: 3.3G</span><br><span class="line">   CGroup: /system.slice/kube-apiserver.service</span><br><span class="line">           └─75456 /etc/kubernetes/bin/kube-apiserver --logtostderr=true --v=0 --etcd-servers=http://192.168.43.33:2379 --insecure-bind-address=0.0.0.0 --insecure-port=8080 --kubelet-read-only-port=10250 --allow-privileged=true --service-cluster-ip-range=10.254.0.0/16 --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota --cert-dir=/etc/kubernetes/var/kube-apiserver --service-node-port-range=80-65535 --feature-gates=Accelerators=true</span><br><span class="line"></span><br><span class="line">Mar 28 16:52:41 aios-4 kube-apiserver[75456]: I0328 16:52:41.255220   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:42 aios-4 kube-apiserver[75456]: I0328 16:52:42.255612   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:43 aios-4 kube-apiserver[75456]: I0328 16:52:43.255943   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:44 aios-4 kube-apiserver[75456]: I0328 16:52:44.256205   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:45 aios-4 kube-apiserver[75456]: I0328 16:52:45.256630   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:46 aios-4 kube-apiserver[75456]: I0328 16:52:46.257040   75456 logs.go:41] http: Accept error: accept tcp [::]:8080: accept4: too many open files; retrying in 1s</span><br><span class="line">Mar 28 16:52:47 aios-4 kube-apiserver[75</span><br></pre></td></tr></table></figure>
 <p><strong>环境信息：</strong></p>
@@ -489,7 +489,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/" title="解决 kube-apiserver 报  too many open files 错误信息">http://weshzhu.com/k8s-issue-kubeapi-too-many-open-files/</a>
+    <a href="https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/" title="解决 kube-apiserver 报  too many open files 错误信息">https://github.com/DemonZSD/k8s-issue-kubeapi-too-many-open-files/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
